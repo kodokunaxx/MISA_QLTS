@@ -1,0 +1,19 @@
+@font-face {
+    font-family: MISAGoogleSans;
+    src: url('../../font/GoogleSans-Regular.otf');
+}
+
+@font-face {
+    font-family: MISAGoogleSans-Bold;
+    src: url('../../font/GoogleSans-Bold.otf');
+}
+
+@font-face {
+    font-family: MISAGoogleSans-Italic;
+    src: url('../../font/GoogleSans-Italic.otf');
+}
+
+@font-face {
+    font-family: MISAGoogleSans-Medium;
+    src: url('../../font/GoogleSans-Medium.otf');
+}

@@ -1,0 +1,17 @@
+@import url('./base/m-icon.css');
+@import url('./base/m-textbox.css');
+@import url('./base/m-selectbox.css');
+@import url('./base/m-table.css');
+@import url('./base/m-skeleton.css');
+@import url('./base/m-datepicker.css');
+@import url('./base/m-button.css');
+@import url('./common/var-spacing.css');
+@import url('./common/var-cls.css');
+@import url('./common/var-font.css');
+@import url('./common/var-other.css');
+body {
+    margin: 0;
+    padding: 0;
+    font-size: 13px;
+    font-family: MISAGoogleSans;
+}

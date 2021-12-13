@@ -1,0 +1,88 @@
+.m-table {
+    border-collapse: collapse;
+    text-align: left;
+}
+
+.m-table thead tr {
+    cursor: pointer;
+    border-bottom: 1px solid #E5E5E5;
+    position: sticky;
+    top: 0;
+    background-color: #f5f5f5;
+    z-index: 11;
+}
+
+.m-table th {
+    /* line-height: 48px; */
+    height: 38px;
+    padding: 0 10px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.m-table td {
+    /* line-height: 48px; */
+    height: 40px;
+    padding: 0 10px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.m-table tbody tr {
+    cursor: pointer;
+    border-bottom: 1px solid #E5E5E5;
+    background-color: #ffffff;
+}
+
+.m-table tbody tr:hover {
+    background-color: #f5f5f5;
+}
+
+.m-table tbody .selected {
+    background-color: #D1EDF4 !important;
+}
+
+.m-table .very-short-width {
+    min-width: 60px;
+    max-width: 60px;
+}
+
+.m-table .short-width {
+    min-width: 100px;
+    max-width: 100px;
+}
+
+.m-table .long-width {
+    min-width: 203px;
+    max-width: 203px;
+}
+
+.m-table .very-long-width {
+    min-width: 220px;
+    max-width: 220px;
+}
+
+.m-table .medium-width {
+    min-width: 135px;
+    max-width: 135px;
+}
+
+.m-table .feature-sticky {
+    z-index: 10;
+    position: sticky;
+    right: 0;
+    background-color: inherit;
+}
+
+.m-table .header-feature-sticky {
+    position: sticky;
+    right: 0;
+    background-color: inherit;
+}
+
+.m-table .footer-sticky {
+    position: sticky;
+    bottom: 0;
+}

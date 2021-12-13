@@ -1,0 +1,192 @@
+.icon-14 {
+    width: 14px;
+    height: 14px;
+    min-width: 14px;
+    min-height: 14px;
+}
+
+.icon-16 {
+    width: 16px;
+    height: 16px;
+    min-width: 16px;
+    min-height: 16px;
+}
+
+.icon-20 {
+    width: 20px;
+    height: 20px;
+    min-width: 20px;
+    min-height: 20px;
+}
+
+.icon-24 {
+    width: 24px;
+    height: 24px;
+    min-width: 24px;
+    min-height: 24px;
+}
+
+.icon-36 {
+    width: 36px;
+    height: 36px;
+    min-width: 36px;
+    min-height: 36px;
+}
+
+.icon-40 {
+    width: 40px;
+    height: 40px;
+    min-width: 40px;
+    min-height: 40px;
+}
+
+.icon-48 {
+    width: 48px;
+    height: 48px;
+    min-width: 48px;
+    min-height: 48px;
+}
+
+.icon-toast {
+    background: url('../../icon/Sprites.64af8f61.svg') no-repeat -1600px -256px;
+}
+
+.icon-close {
+    background: url("../../icon/qlts-icon.svg") no-repeat -372px -284px;
+}
+
+.icon-warning {
+    background: url('../../icon/Sprites.64af8f61.svg') no-repeat -596px -461px;
+}
+
+.icon-checked {
+    background: url("../../icon/qlts-icon.svg")no-repeat -157px -420px;
+}
+
+.icon-filter {
+    background: url("../../icon/qlts-icon.svg")no-repeat -239px -64px;
+}
+
+.icon-previous {
+    background: url("../../icon/qlts-icon.svg")no-repeat -22px -240px;
+}
+
+.icon-next {
+    background: url("../../icon/qlts-icon.svg")no-repeat -65px -240px;
+}
+
+.icon-edit {
+    background: url("../../icon/qlts-icon.svg")no-repeat -153px -64px;
+}
+
+.icon-replication {
+    background: url("../../icon/qlts-icon.svg")no-repeat -240px -108px;
+}
+
+.icon-trash {
+    background: url("../../icon/qlts-icon.svg")no-repeat -460px -108px;
+}
+
+.icon-excel {
+    background: url("../../icon/qlts-icon.svg")no-repeat -284px -108px;
+}
+
+.icon-search {
+    background: url("../../icon/qlts-icon.svg")no-repeat -243px -23px;
+}
+
+.icon-down {
+    background: url("../../icon/qlts-icon.svg")no-repeat -64px -328px;
+}
+
+.icon-notify {
+    background: url("../../icon/qlts-icon.svg") no-repeat -328px -108px;
+}
+
+.icon-system {
+    background: url("../../icon/qlts-icon.svg") no-repeat -196px -20px;
+}
+
+.icon-support {
+    background: url("../../icon/qlts-icon.svg") no-repeat -64px -64px;
+}
+
+.icon-user {
+    background: url("../../icon/qlts-icon.svg") no-repeat -20px -20px;
+}
+
+.icon-up-down {
+    background: url("../../icon/qlts-icon.svg") no-repeat -196px -327px;
+}
+
+.icon-hide {
+    background: url("../../icon/qlts-icon.svg") no-repeat -23px -285px;
+}
+
+.icon-show {
+    background: url("../../icon/qlts-icon.svg") no-repeat -65px -286px;
+}
+
+.icon-dropdown {
+    background: url("../../icon/qlts-icon.svg") no-repeat -156px -289px;
+}
+
+.icon-home {
+    background: url("../../icon/qlts-icon.svg") no-repeat -20px -680px;
+}
+
+.icon-overview {
+    background: url('../../icon/qlts-icon.svg') no-repeat -21px -153px;
+}
+
+.icon-asset {
+    background: url('../../icon/qlts-icon.svg') no-repeat -65px -153px;
+}
+
+.icon-async-asset {
+    background: url('../../icon/qlts-icon.svg') no-repeat -110px -153px;
+}
+
+.icon-tool {
+    background: url('../../icon/qlts-icon.svg') no-repeat -153px -153px;
+}
+
+.icon-category {
+    background: url('../../icon/qlts-icon.svg') no-repeat -197px -155px;
+}
+
+.icon-lookup {
+    background: url('../../icon/qlts-icon.svg') no-repeat -241px -153px;
+}
+
+.icon-report {
+    background: url('../../icon/qlts-icon.svg') no-repeat -329px -153px;
+}
+
+.icon-overview-selected {
+    background: url('../../icon/qlts-icon.svg') no-repeat -22px -198px;
+}
+
+.icon-asset-selected {
+    background: url('../../icon/qlts-icon.svg') no-repeat -65px -197px;
+}
+
+.icon-async-asset-selected {
+    background: url('../../icon/qlts-icon.svg') no-repeat -110px -197px;
+}
+
+.icon-tool-selected {
+    background: url('../../icon/qlts-icon.svg') no-repeat -153px -197px;
+}
+
+.icon-category-selected {
+    background: url('../../icon/qlts-icon.svg') no-repeat -198px -200px;
+}
+
+.icon-lookup-selected {
+    background: url('../../icon/qlts-icon.svg') no-repeat -240px -196px;
+}
+
+.icon-report-selected {
+    background: url('../../icon/qlts-icon.svg') no-repeat -330px -198px;
+}

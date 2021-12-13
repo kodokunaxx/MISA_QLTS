@@ -1,0 +1,90 @@
+.m-textbox-icon {
+    display: flex;
+    align-items: center;
+    height: 35px;
+    border-radius: 4px;
+    width: 100%;
+    min-width: 110px;
+    background-color: #ffffff;
+}
+
+.m-textbox-icon .icon-16 {
+    margin-left: 8px;
+    position: absolute;
+}
+
+.m-textbox>input,
+.m-textbox-icon>input {
+    height: 35px;
+    font-size: 14;
+    border: none;
+    outline: none;
+    padding: 0 14px;
+    border: 1px solid #bbbbbb;
+    font-family: MISAGoogleSans;
+    width: 100%;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    border-radius: 4px;
+}
+
+.m-textbox-icon input {
+    padding-left: 30px;
+}
+
+.m-textbox {
+    display: flex;
+    align-items: center;
+    height: 35px;
+    border-radius: 4px;
+    width: 100%;
+    background-color: #ffffff;
+}
+
+.m-textbox input:hover,
+.m-textbox-icon input:hover {
+    border-color: #69AFE7;
+}
+
+.m-textbox input:focus,
+.m-textbox-icon input:focus {
+    border-color: #69AFE7;
+}
+
+.m-textbox.m-textbox-notvalid {
+    border-color: red;
+}
+
+.m-textbox-focus {
+    border-color: #3996E0;
+}
+
+.m-textbox.disable input:hover {
+    border: 1px solid #bbbbbb !important;
+}
+
+input::-webkit-calendar-picker-indicator {
+    cursor: pointer;
+}
+
+::-webkit-input-placeholder {
+    font-style: italic;
+}
+
+ :-moz-placeholder {
+    font-style: italic;
+}
+
+ ::-moz-placeholder {
+    font-style: italic;
+}
+
+ :-ms-input-placeholder {
+    font-style: italic;
+}
+
+input:disabled {
+    background: #F5F5F5;
+    color: black;
+}
