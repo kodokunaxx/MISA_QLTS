@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "jnzON4w/Rs8iroN8hOpv3PB+cD4I3kSiSO2Z9BwAYt1ufIIkryFvKD1jLt8dYjGN6u6ZNxvu7HhotPvoEUHpxQ==",
+  "dgSpecHash": "EdCGEnSmFDkdX2KiV8fctcVKaC0YDy7GjYbD1tGjlTLXFK7e5RxkrXCRbtUA9g/aJCDILr8pG4P0rp8DZkxsDQ==",
   "success": true,
-  "projectFilePath": "D:\\Fresher MISA\\BAI_TAP_HCSN_Dao_tao_Fresher\\MISA.QLTS\\MISA.QLTS\\QLTS-BE\\MISA.Infrastructure\\MISA.Infrastructure.csproj",
+  "projectFilePath": "D:\\Fresher MISA\\BAI_TAP_HCSN_Dao_tao_Fresher\\MISA_QLTS\\QLTS-BE\\MISA.Infrastructure\\MISA.Infrastructure.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\kodokuna\\.nuget\\packages\\dapper\\2.0.90\\dapper.2.0.90.nupkg.sha512",
     "C:\\Users\\kodokuna\\.nuget\\packages\\epplus\\5.7.4\\epplus.5.7.4.nupkg.sha512",

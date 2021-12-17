@@ -5,6 +5,12 @@ export const Method = {
     Delete: "DELETE",
 }
 
+export const TitleForm = {
+    Add: "Thêm mới tài sản",
+    Edit: "Sửa tài sản",
+    Replication: "Nhân bản tài sản"
+}
+
 export const DialogMode = {
     Duplicate: "Duplicate",
     CancelAdd: "CancelAdd",
@@ -16,7 +22,8 @@ export const DialogMode = {
     GetByIdFail: "GetByIdFail",
     Required: "Required",
     FixRate: "FixRate",
-    FixDYear: "FixDYear"
+    FixDYear: "FixDYear",
+    ErrorDate: "ErrorDate"
 }
 
 export const Button = {
@@ -54,7 +61,8 @@ export const Warning = {
         return `Cần phải nhập thông tin <span style="font-family: MISAGoogleSans-Bold;">${payload}</span>.`;
     },
     FixRate: "Tỷ lệ hao mòn phải bằng 1/Số năm sử dụng.",
-    FixDYear: "Hao mòn năm phải nhỏ hơn hoặc bằng nguyên giá."
+    FixDYear: "Hao mòn năm phải nhỏ hơn hoặc bằng nguyên giá.",
+    ErrorDate: "Ngày mua không được sau ngày sử dụng."
 }
 
 export const Toast = {

@@ -58,6 +58,6 @@ namespace MISA.Core.Interfaces.Services
         public ServiceResult Delete(Guid entityId);
 
 
-        Task<ServiceResult> DeleteMultiAsync(List<string> listID);
+        Task<ServiceResult> DeleteMultiAsync(string[] listId);
     }
 }

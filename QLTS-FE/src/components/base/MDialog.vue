@@ -3,7 +3,7 @@
     <div class="m-dialog-error-main">
       <div class="m-dialog-content">
         <div class="icon-40 icon-warning"></div>
-        <div class="error-text m-l-10"></div>
+        <div class="error-text m-l-16"></div>
       </div>
       <div class="m-dialog-footer">
         <div class="button-field dis-flex">
@@ -15,13 +15,13 @@
             <div class="label">{{ btnOutline }}</div>
           </button>
           <button
-            class="m-btn m-btn-sub m-l-8"
+            class="m-btn m-btn-sub m-l-12"
             v-if="isShowBtnSub"
             @click="handleSublineButton()"
           >
             <div class="label">{{ btnSub }}</div>
           </button>
-          <button class="m-btn m-l-8" @click="handleMainButton()">
+          <button class="m-btn m-l-12" @click="handleMainButton()">
             <div class="label">{{ btnMain }}</div>
           </button>
         </div>
@@ -55,6 +55,7 @@ export default {
   methods: {
     /**
      * xử lý sự kiện cho sub button
+     * CreatedBy: hadm 12/12/2021
      */
     handleSublineButton() {
       switch (this.mode) {
@@ -69,6 +70,7 @@ export default {
 
     /**
      * xử lý sự kiện cho outline button
+     * CreatedBy: hadm 12/12/2021
      */
     handleOutlineButton() {
       switch (this.mode) {
@@ -92,6 +94,7 @@ export default {
 
     /**
      * xử lý sự kiện cho main button
+     * CreatedBy: hadm 12/12/2021
      */
     handleMainButton() {
       switch (this.mode) {
@@ -130,6 +133,9 @@ export default {
         case this.modeList.FixDYear:
           this.closeDialogFocus();
           break;
+        case this.modeList.ErrorDate:
+          this.closeDialog();
+          break;
         default:
           break;
       }
@@ -137,6 +143,7 @@ export default {
 
     /**
      * set text, event theo dialogMode
+     * CreatedBy: hadm 12/12/2021
      */
     setDialogByMode() {
       let dialogContent = document.querySelector(
@@ -230,6 +237,12 @@ export default {
           this.isShowBtnSub = false;
           dialogContent.innerHTML = this.$store.getters.FixDYear;
           break;
+        case this.modeList.ErrorDate:
+          this.btnMain = this.btnText.Close;
+          this.isShowBtnOutline = false;
+          this.isShowBtnSub = false;
+          dialogContent.innerHTML = this.$store.getters.ErrorDate;
+          break;
         default:
           break;
       }
@@ -237,6 +250,7 @@ export default {
 
     /**
      * xử lý số lượng tài sản xóa
+     * CreatedBy: hadm 12/12/2021
      */
     handleCount(count) {
       if (count < 10) return `0${count}`;
@@ -245,6 +259,7 @@ export default {
 
     /**
      * đóng dialog
+     * CreatedBy: hadm 12/12/2021
      */
     closeDialog() {
       this.$store.commit("setIsShowDialog", false);
@@ -253,6 +268,7 @@ export default {
 
     /**
      * đóng dialog + form
+     * CreatedBy: hadm 12/12/2021
      */
     closeDialogAndForm() {
       this.$store.commit("setIsShowDialog", false);
@@ -262,6 +278,7 @@ export default {
 
     /**
      * close Dialog and focus
+     * CreatedBy: hadm 12/12/2021
      */
     closeDialogFocus() {
       this.$store.commit("setIsShowDialogForm", false);
@@ -296,7 +313,7 @@ export default {
 
 .m-dialog .m-dialog-content {
   display: flex;
-  padding: 0 16px;
+  padding: 0 24px;
   align-items: center;
   margin-top: 24px;
 }

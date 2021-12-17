@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "D:\\Fresher MISA\\BAI_TAP_HCSN_Dao_tao_Fresher\\MISA.QLTS\\MISA.QLTS\\QLTS-BE\\MISA.Infrastructure\\MISA.Infrastructure.csproj": {}
+    "D:\\Fresher MISA\\BAI_TAP_HCSN_Dao_tao_Fresher\\MISA_QLTS\\QLTS-BE\\MISA.Infrastructure\\MISA.Infrastructure.csproj": {}
   },
   "projects": {
-    "D:\\Fresher MISA\\BAI_TAP_HCSN_Dao_tao_Fresher\\MISA.QLTS\\MISA.QLTS\\QLTS-BE\\MISA.Core\\MISA.Core.csproj": {
+    "D:\\Fresher MISA\\BAI_TAP_HCSN_Dao_tao_Fresher\\MISA_QLTS\\QLTS-BE\\MISA.Core\\MISA.Core.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "D:\\Fresher MISA\\BAI_TAP_HCSN_Dao_tao_Fresher\\MISA.QLTS\\MISA.QLTS\\QLTS-BE\\MISA.Core\\MISA.Core.csproj",
+        "projectUniqueName": "D:\\Fresher MISA\\BAI_TAP_HCSN_Dao_tao_Fresher\\MISA_QLTS\\QLTS-BE\\MISA.Core\\MISA.Core.csproj",
         "projectName": "MISA.Core",
-        "projectPath": "D:\\Fresher MISA\\BAI_TAP_HCSN_Dao_tao_Fresher\\MISA.QLTS\\MISA.QLTS\\QLTS-BE\\MISA.Core\\MISA.Core.csproj",
+        "projectPath": "D:\\Fresher MISA\\BAI_TAP_HCSN_Dao_tao_Fresher\\MISA_QLTS\\QLTS-BE\\MISA.Core\\MISA.Core.csproj",
         "packagesPath": "C:\\Users\\kodokuna\\.nuget\\packages\\",
-        "outputPath": "D:\\Fresher MISA\\BAI_TAP_HCSN_Dao_tao_Fresher\\MISA.QLTS\\MISA.QLTS\\QLTS-BE\\MISA.Core\\obj\\",
+        "outputPath": "D:\\Fresher MISA\\BAI_TAP_HCSN_Dao_tao_Fresher\\MISA_QLTS\\QLTS-BE\\MISA.Core\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
           "C:\\Users\\kodokuna\\AppData\\Roaming\\NuGet\\NuGet.Config",
@@ -64,14 +64,14 @@
         }
       }
     },
-    "D:\\Fresher MISA\\BAI_TAP_HCSN_Dao_tao_Fresher\\MISA.QLTS\\MISA.QLTS\\QLTS-BE\\MISA.Infrastructure\\MISA.Infrastructure.csproj": {
+    "D:\\Fresher MISA\\BAI_TAP_HCSN_Dao_tao_Fresher\\MISA_QLTS\\QLTS-BE\\MISA.Infrastructure\\MISA.Infrastructure.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "D:\\Fresher MISA\\BAI_TAP_HCSN_Dao_tao_Fresher\\MISA.QLTS\\MISA.QLTS\\QLTS-BE\\MISA.Infrastructure\\MISA.Infrastructure.csproj",
+        "projectUniqueName": "D:\\Fresher MISA\\BAI_TAP_HCSN_Dao_tao_Fresher\\MISA_QLTS\\QLTS-BE\\MISA.Infrastructure\\MISA.Infrastructure.csproj",
         "projectName": "MISA.Infrastructure",
-        "projectPath": "D:\\Fresher MISA\\BAI_TAP_HCSN_Dao_tao_Fresher\\MISA.QLTS\\MISA.QLTS\\QLTS-BE\\MISA.Infrastructure\\MISA.Infrastructure.csproj",
+        "projectPath": "D:\\Fresher MISA\\BAI_TAP_HCSN_Dao_tao_Fresher\\MISA_QLTS\\QLTS-BE\\MISA.Infrastructure\\MISA.Infrastructure.csproj",
         "packagesPath": "C:\\Users\\kodokuna\\.nuget\\packages\\",
-        "outputPath": "D:\\Fresher MISA\\BAI_TAP_HCSN_Dao_tao_Fresher\\MISA.QLTS\\MISA.QLTS\\QLTS-BE\\MISA.Infrastructure\\obj\\",
+        "outputPath": "D:\\Fresher MISA\\BAI_TAP_HCSN_Dao_tao_Fresher\\MISA_QLTS\\QLTS-BE\\MISA.Infrastructure\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
           "C:\\Users\\kodokuna\\AppData\\Roaming\\NuGet\\NuGet.Config",
@@ -88,8 +88,8 @@
           "netcoreapp3.1": {
             "targetAlias": "netcoreapp3.1",
             "projectReferences": {
-              "D:\\Fresher MISA\\BAI_TAP_HCSN_Dao_tao_Fresher\\MISA.QLTS\\MISA.QLTS\\QLTS-BE\\MISA.Core\\MISA.Core.csproj": {
-                "projectPath": "D:\\Fresher MISA\\BAI_TAP_HCSN_Dao_tao_Fresher\\MISA.QLTS\\MISA.QLTS\\QLTS-BE\\MISA.Core\\MISA.Core.csproj"
+              "D:\\Fresher MISA\\BAI_TAP_HCSN_Dao_tao_Fresher\\MISA_QLTS\\QLTS-BE\\MISA.Core\\MISA.Core.csproj": {
+                "projectPath": "D:\\Fresher MISA\\BAI_TAP_HCSN_Dao_tao_Fresher\\MISA_QLTS\\QLTS-BE\\MISA.Core\\MISA.Core.csproj"
               }
             }
           }

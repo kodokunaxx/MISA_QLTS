@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "PCjc/h+uxZ2MnScpK8CjjGRnziPhPp0UKvX+SdMlb8xCfbWKu2NMr2v0e7BUyfZmge9zu1BbT3AlI/3hO/KLTg==",
+  "dgSpecHash": "/izYe72cc8gfcOk+A8TJCWL58y1Wa9KHLLctBMbemmmgyH/6rO371caB0wSf660wfG5e7tvr5S6XXtUrS09kvA==",
   "success": true,
-  "projectFilePath": "D:\\Fresher MISA\\BAI_TAP_HCSN_Dao_tao_Fresher\\MISA.QLTS\\MISA.QLTS\\QLTS-BE\\MISA.Core\\MISA.Core.csproj",
+  "projectFilePath": "D:\\Fresher MISA\\BAI_TAP_HCSN_Dao_tao_Fresher\\MISA_QLTS\\QLTS-BE\\MISA.Core\\MISA.Core.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\kodokuna\\.nuget\\packages\\epplus\\5.7.4\\epplus.5.7.4.nupkg.sha512",
     "C:\\Users\\kodokuna\\.nuget\\packages\\microsoft.extensions.configuration\\3.1.10\\microsoft.extensions.configuration.3.1.10.nupkg.sha512",

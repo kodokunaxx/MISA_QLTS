@@ -39,6 +39,7 @@ export default {
   methods: {
     /**
      * ẩn menu context
+     * CreatedBy: hadm 12/12/2021
      */
     hideMenuContext() {
       this.$store.commit("setIsShowMenuContext", false);
@@ -51,6 +52,7 @@ export default {
 
     /**
      * xóa tài sản
+     * CreatedBy: hadm 12/12/2021
      */
     deleteFA() {
       this.hideMenuContext();
@@ -59,6 +61,7 @@ export default {
 
     /**
      * nhân bản tài sản
+     * CreatedBy: hadm 12/12/2021
      */
     replicationFA() {
       this.hideMenuContext();
@@ -73,6 +76,7 @@ export default {
 
     /**
      * sửa tài sản
+     * CreatedBy: hadm 12/12/2021
      */
     editFA() {
       this.hideMenuContext();
@@ -87,6 +91,7 @@ export default {
 
     /**
      * thêm mới
+     * CreatedBy: hadm 12/12/2021
      */
     addFA() {
       this.hideMenuContext();

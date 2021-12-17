@@ -88,3 +88,31 @@ input:disabled {
     background: #F5F5F5;
     color: black;
 }
+
+.m-textbox.number {
+    position: relative;
+}
+
+.m-textbox.number input {
+    padding-right: 34px;
+}
+
+.m-textbox.number .number-side {
+    position: absolute;
+    right: 8px;
+}
+
+.number-side .icon-14 {
+    cursor: pointer;
+    border-radius: 4px;
+}
+
+.number-side .icon-14:hover {
+    cursor: pointer;
+    background-color: #dbdbdb;
+}
+
+.number-side .icon-14:active {
+    cursor: pointer;
+    background-color: #ededed;
+}

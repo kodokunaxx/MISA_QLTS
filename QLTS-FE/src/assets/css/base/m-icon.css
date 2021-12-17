@@ -47,6 +47,14 @@
     min-height: 48px;
 }
 
+.icon-increase {
+    background: url("../../icon/qlts-icon.svg") no-repeat -25px -332px;
+}
+
+.icon-reduction {
+    background: url("../../icon/qlts-icon.svg") no-repeat -69px -335px;
+}
+
 .icon-toast {
     background: url('../../icon/Sprites.64af8f61.svg') no-repeat -1600px -256px;
 }

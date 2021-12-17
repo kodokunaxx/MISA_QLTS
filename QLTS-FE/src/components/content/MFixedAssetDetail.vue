@@ -2,8 +2,14 @@
   <div class="m-form">
     <div class="form-site">
       <div class="f-header">
-        <div class="f-title">THÔNG TIN NHÂN VIÊN</div>
-        <div class="icon-24 icon-close" @click="closeForm('check')"></div>
+        <div class="f-title">{{ titleForm }}</div>
+        <div
+          class="icon-24 icon-close"
+          @click="closeForm('check')"
+          title="Đóng (ESC)"
+          v-shortkey="['esc']"
+          @shortkey="closeForm('check')"
+        ></div>
       </div>
       <div class="f-content">
         <div class="c-left w-1/3 m-r-16">
@@ -18,9 +24,11 @@
                 id=""
                 v-model="faInfo.FixedAssetCode"
                 ref="FixedAssetCode"
+                placeholder="Nhập mã tài sản"
                 tabindex="1"
                 class="required"
                 @focus="removeError('FixedAssetCode')"
+                maxlength="10"
               />
             </div>
           </div>
@@ -35,14 +43,14 @@
               value-expr="DepartmentId"
               display-expr="DepartmentCode"
               :search-enabled="true"
-              :placeholder="'Bộ phận sử dụng'"
+              :placeholder="'Chọn mã bộ phận sử dụng'"
               :noDataText="'Không có dữ liệu'"
               item-template="item"
               @value-changed="handleSelect($event, 'department')"
               :tabIndex="3"
               class="required"
               ref="DepartmentId"
-              @focusIn="removeError('DepartmentId')"
+              @focusIn="removeError('DepartmentId'), OpenSelectBox($event)"
             >
               <template #item="{ data }">
                 <div>
@@ -70,14 +78,16 @@
               value-expr="FixedAssetCategoryId"
               display-expr="FixedAssetCategoryCode"
               :search-enabled="true"
-              :placeholder="'Loại tài sản'"
+              :placeholder="'Chọn mã loại tài sản'"
               :noDataText="'Không có dữ liệu'"
               item-template="item"
               @value-changed="handleSelect($event, 'fixedAssetCategory')"
               :tabIndex="4"
               class="required"
               ref="FixedAssetCategoryId"
-              @focusIn="removeError('FixedAssetCategoryId')"
+              @focusIn="
+                removeError('FixedAssetCategoryId'), OpenSelectBox($event)
+              "
             >
               <template #item="{ data }">
                 <div>
@@ -98,18 +108,32 @@
             <div class="label m-b-8">
               Số lượng <span style="color: red">*</span>
             </div>
-            <div class="m-textbox">
+            <div class="m-textbox number">
               <input
                 type="text"
                 name=""
                 id=""
                 class="text-right required"
                 v-model="faInfo.Quantity"
+                @keypress="validate($event)"
                 @keyup="faInfo.Quantity = formatCurrency(faInfo.Quantity)"
                 tabindex="5"
                 ref="Quantity"
-                @focus="removeError('Quantity')"
+                @focus="
+                  removeError('Quantity');
+                  focusReset('Quantity');
+                "
               />
+              <div class="number-side">
+                <div
+                  class="icon-14 icon-increase"
+                  @click="increaseNum('Quantity')"
+                ></div>
+                <div
+                  class="icon-14 icon-reduction"
+                  @click="reductionNum('Quantity')"
+                ></div>
+              </div>
             </div>
           </div>
           <div class="row m-b-20">
@@ -132,18 +156,32 @@
             <div class="label m-b-8">
               Số năm sử dụng <span style="color: red">*</span>
             </div>
-            <div class="m-textbox">
+            <div class="m-textbox number">
               <input
                 type="text"
                 name=""
                 id=""
                 class="text-right required"
                 v-model="faInfo.LifeTime"
+                @keypress="validate($event)"
                 @keyup="faInfo.LifeTime = formatCurrency(faInfo.LifeTime)"
                 tabindex="10"
                 ref="LifeTime"
-                @focus="removeError('LifeTime')"
+                @focus="
+                  removeError('LifeTime');
+                  focusReset('LifeTime');
+                "
               />
+              <div class="number-side">
+                <div
+                  class="icon-14 icon-increase"
+                  @click="increaseNum('LifeTime')"
+                ></div>
+                <div
+                  class="icon-14 icon-reduction"
+                  @click="reductionNum('LifeTime')"
+                ></div>
+              </div>
             </div>
           </div>
         </div>
@@ -158,6 +196,7 @@
                 name=""
                 id=""
                 v-model="faInfo.FixedAssetName"
+                placeholder="Nhập tên tài sản"
                 tabindex="2"
                 class="required"
                 ref="FixedAssetName"
@@ -201,13 +240,17 @@
                   id=""
                   class="text-right required"
                   v-model="faInfo.Cost"
+                  @keypress="validate($event)"
                   @keyup="
                     (faInfo.Cost = formatCurrency(faInfo.Cost)),
                       setDepreciationYear()
                   "
                   tabindex="6"
                   ref="Cost"
-                  @focus="removeError('Cost')"
+                  @focus="
+                    removeError('Cost');
+                    focusReset('Cost');
+                  "
                 />
               </div>
             </div>
@@ -222,6 +265,7 @@
                   id=""
                   class="text-right required"
                   v-model="faInfo.DepreciationRate"
+                  @keypress="validate($event, 1)"
                   @keyup="
                     (faInfo.DepreciationRate = formatDecimal(
                       faInfo.DepreciationRate
@@ -230,7 +274,11 @@
                   "
                   tabindex="7"
                   ref="DepreciationRate"
-                  @focus="removeError('DepreciationRate')"
+                  @focus="
+                    removeError('DepreciationRate');
+                    focusReset('DepreciationRate');
+                  "
+                  maxlength="5"
                 />
               </div>
             </div>
@@ -278,6 +326,7 @@
                   id=""
                   class="text-right required"
                   v-model="faInfo.DepreciationYear"
+                  @keypress="validate($event)"
                   @keyup="
                     (faInfo.DepreciationYear = formatCurrency(
                       faInfo.DepreciationYear
@@ -286,7 +335,10 @@
                   "
                   tabindex="11"
                   ref="DepreciationYear"
-                  @focus="removeError('DepreciationYear')"
+                  @focus="
+                    removeError('DepreciationYear');
+                    focusReset('DepreciationYear');
+                  "
                 />
               </div>
             </div>
@@ -297,10 +349,21 @@
       <div class="f-footer">
         <div></div>
         <div class="button-field dis-flex">
-          <button class="m-btn m-btn-outline m-r-8" @click="closeForm(null)">
+          <button
+            class="m-btn m-btn-outline m-r-16"
+            @click="closeForm(null)"
+            tabindex="12"
+          >
             <div class="label">Hủy</div>
           </button>
-          <button class="m-btn" @click="saveData()">
+          <button
+            class="m-btn"
+            @click="saveData()"
+            tabindex="12"
+            title="Lưu (Ctrl + S)"
+            v-shortkey="['ctrl', 's']"
+            @shortkey="saveData()"
+          >
             <div class="label">Lưu</div>
           </button>
         </div>
@@ -363,13 +426,14 @@ export default {
         ModifiedDate: null,
         ModifiedBy: null,
         DepreciationYear: 0,
-        method: "",
-        dialogMode: "",
-        nameRequired: "",
-        focusRequired: "",
       },
+      method: "",
+      dialogMode: "",
+      nameRequired: "",
+      focusRequired: "",
       temp: 0,
       faInfoClone: null,
+      titleForm: "",
     };
   },
   async created() {
@@ -381,15 +445,16 @@ export default {
       await this.bindCode();
 
       this.$store.commit("setToastContent", this.$store.getters.Toast.Add);
+      this.titleForm = this.$store.getters.TitleForm.Replication;
     } else if (this.id) {
       this.bindData();
       this.method = this.$store.getters.Method.Edit;
       this.endPoint += this.id;
-
+      this.titleForm = this.$store.getters.TitleForm.Edit;
       this.$store.commit("setToastContent", this.$store.getters.Toast.Edit);
     } else {
       this.bindCode();
-
+      this.titleForm = this.$store.getters.TitleForm.Add;
       this.$store.commit("setToastContent", this.$store.getters.Toast.Add);
     }
   },
@@ -399,7 +464,19 @@ export default {
   beforeDestroy() {},
   methods: {
     /**
+     * xổ dropdown
+     */
+    OpenSelectBox(e) {
+      const needOpen =
+        !e.component._popup || e.component._popup.option("visible") == false;
+      if (needOpen) {
+        setTimeout(() => e.component.open(), 200);
+      }
+    },
+
+    /**
      * validate các trường bắt buộc
+     * CreatedBy: hadm 12/12/2021
      */
     validateRequired() {
       let flag = true;
@@ -412,7 +489,11 @@ export default {
         if (i == 1 || i == 2 || i == 4 || i == 9) {
           inputVal = requireds[i].querySelector("input").value;
           if (inputVal == null || inputVal == "") {
-            requireds[i].classList.add("error");
+            if (i == 4 || i == 9) {
+              requireds[i].querySelector("input").classList.add("error");
+            } else {
+              requireds[i].classList.add("error");
+            }
             flag = false;
             name =
               requireds[i].parentElement.querySelector(".label").textContent;
@@ -444,6 +525,7 @@ export default {
 
     /**
      * xử lý nghiệp vụ
+     * CreatedBy: hadm 12/12/2021
      */
     validateMajor() {
       let tCost = parseInt((this.faInfo.Cost + "").replaceAll(".", ""));
@@ -472,21 +554,52 @@ export default {
     },
 
     /**
+     * validate Date
+     * CreatedBy: hadm 12/12/2021
+     */
+    validateDate() {
+      if (this.faInfo.PurchaseDate > this.faInfo.UseDate) {
+        this.dialogMode = this.$store.getters.DialogMode.ErrorDate;
+        this.$store.commit("setIsShowDialogForm", true);
+        return false;
+      }
+      return true;
+    },
+
+    /**
      * xóa error khi focus
+     * CreatedBy: hadm 12/12/2021
      */
     removeError(refName) {
       let requireds = document.querySelectorAll(".required");
-      if (refName == "DepartmentId") {
-        requireds[1].classList.remove("error");
-      } else if (refName == "FixedAssetCategoryId") {
-        requireds[2].classList.remove("error");
-      } else {
-        this.$refs[refName].classList.remove("error");
+
+      switch (refName) {
+        case "DepartmentId":
+          requireds[1].classList.remove("error");
+
+          break;
+        case "FixedAssetCategoryId":
+          requireds[2].classList.remove("error");
+
+          break;
+        case "PurchaseDate":
+          requireds[4].querySelector("input").classList.remove("error");
+
+          break;
+        case "UseDate":
+          requireds[9].querySelector("input").classList.remove("error");
+
+          break;
+
+        default:
+          this.$refs[refName].classList.remove("error");
+          break;
       }
     },
 
     /**
      * focus vào lỗi
+     * CreatedBy: hadm 12/12/2021
      */
     focusToError() {
       this.focusRequired.focus();
@@ -494,6 +607,7 @@ export default {
 
     /**
      * set tabindex date picker
+     * CreatedBy: hadm 12/12/2021
      */
     setTabIndex() {
       let dpicker = document.querySelectorAll(".mx-input");
@@ -503,6 +617,7 @@ export default {
 
     /**
      * đóng form
+     * CreatedBy: hadm 12/12/2021
      */
     closeForm(check) {
       this.nameRequired = "";
@@ -524,6 +639,7 @@ export default {
 
     /**
      * lưu dữ liệu
+     * CreatedBy: hadm 12/12/2021
      */
     saveData() {
       if (!this.validateRequired()) {
@@ -532,6 +648,7 @@ export default {
         return;
       }
       if (!this.validateMajor()) return;
+      if (!this.validateDate()) return;
       this.beforeSave();
       const config = {
         url: this.hostApi + this.endPoint,
@@ -569,6 +686,7 @@ export default {
 
     /**
      * event trước khi lưu
+     * CreatedBy: hadm 12/12/2021
      */
     beforeSave() {
       this.isLoading = true;
@@ -590,6 +708,7 @@ export default {
 
     /**
      * tính giá trị hao mòn năm
+     * CreatedBy: hadm 12/12/2021
      */
     setDepreciationYear() {
       let tmpDR = this.faInfo.DepreciationRate + "";
@@ -606,6 +725,7 @@ export default {
 
     /**
      * tính tỉ lệ hao mòn
+     * CreatedBy: hadm 12/12/2021
      */
     setDepreciationRate() {
       if (
@@ -627,6 +747,7 @@ export default {
 
     /**
      * format số
+     * CreatedBy: hadm 12/12/2021
      */
     formatNum(value) {
       if (value == null || value == 0 || value == "") return "0";
@@ -636,6 +757,7 @@ export default {
 
     /**
      * format tiền
+     * CreatedBy: hadm 12/12/2021
      */
     formatCurrency(value) {
       if (value == null || value == 0 || value == "") return "0";
@@ -645,6 +767,7 @@ export default {
 
     /**
      * format số thập phân
+     * CreatedBy: hadm 12/12/2021
      */
     formatDecimal(value) {
       if (value == null || value == 0 || value == "") return "0";
@@ -668,6 +791,7 @@ export default {
 
     /**
      * sinh mã mới
+     * CreatedBy: hadm 12/12/2021
      */
     bindCode() {
       this.isLoading = true;
@@ -687,6 +811,7 @@ export default {
 
     /**
      * event sau khi binding
+     * CreatedBy: hadm 12/12/2021
      */
     setFaInfoClone() {
       this.faInfo.DepreciationYear = (
@@ -708,6 +833,7 @@ export default {
     },
     /**
      * gán dữ liệu
+     * CreatedBy: hadm 12/12/2021
      */
     async bindData() {
       this.isLoading = true;
@@ -734,6 +860,7 @@ export default {
 
     /**
      * gán index để set select dropdown
+     * CreatedBy: hadm 12/12/2021
      */
     handleSelect(e, type) {
       if (!e) {
@@ -756,6 +883,7 @@ export default {
     },
     /**
      * gán dữ liệu cho dropdown Phòng ban
+     * CreatedBy: hadm 12/12/2021
      */
     setDepartment() {
       this.departments = [...this.$store.getters.Departments];
@@ -765,8 +893,10 @@ export default {
         disabled: true,
       });
     },
+
     /**
      * gán dữ liệu cho dropdown Loại tài sản
+     * CreatedBy: hadm 12/12/2021
      */
     setFixedAssetCategory() {
       this.fixedAssetCategorys = [...this.$store.getters.FixedAssetCategorys];
@@ -775,6 +905,93 @@ export default {
         FixedAssetCategoryName: "Tên",
         disabled: true,
       });
+    },
+
+    /**
+     * handler key number
+     * CreatedBy: hadm 12/12/2021
+     */
+    validate(evt, type) {
+      var regex = /[0-9]/g;
+      if (type) {
+        regex = /[0-9|,]/g;
+      }
+      var theEvent = evt || window.event;
+
+      // Handle paste
+      if (theEvent.type === "paste") {
+        key = event.clipboardData.getData("text/plain");
+      } else {
+        // Handle key press
+        var key = theEvent.keyCode || theEvent.which;
+        key = String.fromCharCode(key);
+      }
+      if (!regex.test(key)) {
+        theEvent.returnValue = false;
+        if (theEvent.preventDefault) theEvent.preventDefault();
+      }
+    },
+
+    /**
+     * reset text
+     * CreatedBy: hadm 12/12/2021
+     */
+    focusReset() {
+      // switch (refName) {
+      //   case "Quantity":
+      //     this.faInfo.Quantity = "";
+      //     break;
+      //   case "Cost":
+      //     this.faInfo.Cost = "";
+      //     break;
+      //   case "DepreciationRate":
+      //     this.faInfo.DepreciationRate = "";
+      //     break;
+      //   case "LifeTime":
+      //     this.faInfo.LifeTime = "";
+      //     break;
+      //   case "DepreciationYear":
+      //     this.faInfo.DepreciationYear = "";
+      //     break;
+      //   default:
+      //     break;
+      // }
+    },
+
+    increaseNum(name) {
+      let temp;
+      switch (name) {
+        case "LifeTime":
+          temp = parseInt(this.formatNum(this.faInfo.LifeTime + "")) + 1;
+          this.faInfo.LifeTime = this.formatCurrency(temp + "");
+          break;
+        case "Quantity":
+          temp = parseInt(this.formatNum(this.faInfo.Quantity + "")) + 1;
+          this.faInfo.Quantity = this.formatCurrency(temp + "");
+          break;
+
+        default:
+          break;
+      }
+    },
+
+    reductionNum(name) {
+      let temp;
+      switch (name) {
+        case "LifeTime":
+          temp = parseInt(this.formatNum(this.faInfo.LifeTime + "")) - 1;
+          if (temp < 0) return;
+          this.faInfo.LifeTime = this.formatCurrency(temp + "");
+          break;
+        case "Quantity":
+          temp = parseInt(this.formatNum(this.faInfo.Quantity + "")) - 1;
+          if (temp < 0) return;
+          this.faInfo.Quantity = this.formatCurrency(temp + "");
+          break;
+
+        default:
+          break;
+      }
     },
   },
 };
@@ -811,7 +1028,7 @@ export default {
 }
 
 .f-header .f-title {
-  font-size: 15px;
+  font-size: 17px;
   font-family: MISAGoogleSans-Bold;
 }
 

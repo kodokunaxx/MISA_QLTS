@@ -164,13 +164,20 @@ namespace MISA.Core.Services
             return serviceResult;
         }
 
-        public async Task<ServiceResult> DeleteMultiAsync(List<string> listID)
+        /// <summary>
+        /// Xóa nhiều record
+        /// </summary>
+        /// <param name="listId"></param>
+        /// <returns></returns>
+        /// CreatedBy: hadm (11/11/2021)
+        /// ModifiedBy: null
+        public async Task<ServiceResult> DeleteMultiAsync(string[] listId)
         {
             ServiceResult serviceResult = new ServiceResult();
             serviceResult.MoreInfo = Properties.Resource.DELETE;
-            var rowEffects = await _baseRepository.DeleteMulti(listID);
+            var rowEffects = await _baseRepository.DeleteMulti(listId);
 
-            if (rowEffects == listID.Count)
+            if (rowEffects == listId.Length)
             {
                 serviceResult.SetSuccess(serviceResult, rowEffects);
             }

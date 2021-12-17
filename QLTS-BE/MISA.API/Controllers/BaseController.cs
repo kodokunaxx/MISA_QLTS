@@ -170,20 +170,21 @@ namespace MISA.AmisAPI.Controllers
         }
 
         [HttpDelete("delete-multi")]
-        public async Task<IActionResult> DeleteMulti(List<string> listID)
+        public async Task<IActionResult> DeleteMulti(string[] listId)
         {
             ServiceResult serviceResult = new ServiceResult();
             try
             {
-                serviceResult = await _baseService.DeleteMultiAsync(listID);
+                serviceResult = await _baseService.DeleteMultiAsync(listId);
                 if(serviceResult.ResultCode == (int) CodeResult.Success)
                 {
                     return base.Ok(serviceResult);
                 }
                 return BadRequest(serviceResult);
             }
-            catch (Exception)
+            catch (Exception e)
             {
+                serviceResult.SetInternalServerError(e);
                 return StatusCode(500,serviceResult);
             }
         }

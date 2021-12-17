@@ -5045,11 +5045,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "D:\\Fresher MISA\\BAI_TAP_HCSN_Dao_tao_Fresher\\MISA.QLTS\\MISA.QLTS\\QLTS-BE\\MISA.API\\MISA.API.csproj",
+      "projectUniqueName": "D:\\Fresher MISA\\BAI_TAP_HCSN_Dao_tao_Fresher\\MISA_QLTS\\QLTS-BE\\MISA.API\\MISA.API.csproj",
       "projectName": "MISA.API",
-      "projectPath": "D:\\Fresher MISA\\BAI_TAP_HCSN_Dao_tao_Fresher\\MISA.QLTS\\MISA.QLTS\\QLTS-BE\\MISA.API\\MISA.API.csproj",
+      "projectPath": "D:\\Fresher MISA\\BAI_TAP_HCSN_Dao_tao_Fresher\\MISA_QLTS\\QLTS-BE\\MISA.API\\MISA.API.csproj",
       "packagesPath": "C:\\Users\\kodokuna\\.nuget\\packages\\",
-      "outputPath": "D:\\Fresher MISA\\BAI_TAP_HCSN_Dao_tao_Fresher\\MISA.QLTS\\MISA.QLTS\\QLTS-BE\\MISA.API\\obj\\",
+      "outputPath": "D:\\Fresher MISA\\BAI_TAP_HCSN_Dao_tao_Fresher\\MISA_QLTS\\QLTS-BE\\MISA.API\\obj\\",
       "projectStyle": "PackageReference",
       "configFilePaths": [
         "C:\\Users\\kodokuna\\AppData\\Roaming\\NuGet\\NuGet.Config",
@@ -5066,11 +5066,11 @@
         "netcoreapp3.1": {
           "targetAlias": "netcoreapp3.1",
           "projectReferences": {
-            "D:\\Fresher MISA\\BAI_TAP_HCSN_Dao_tao_Fresher\\MISA.QLTS\\MISA.QLTS\\QLTS-BE\\MISA.Core\\MISA.Core.csproj": {
-              "projectPath": "D:\\Fresher MISA\\BAI_TAP_HCSN_Dao_tao_Fresher\\MISA.QLTS\\MISA.QLTS\\QLTS-BE\\MISA.Core\\MISA.Core.csproj"
+            "D:\\Fresher MISA\\BAI_TAP_HCSN_Dao_tao_Fresher\\MISA_QLTS\\QLTS-BE\\MISA.Core\\MISA.Core.csproj": {
+              "projectPath": "D:\\Fresher MISA\\BAI_TAP_HCSN_Dao_tao_Fresher\\MISA_QLTS\\QLTS-BE\\MISA.Core\\MISA.Core.csproj"
             },
-            "D:\\Fresher MISA\\BAI_TAP_HCSN_Dao_tao_Fresher\\MISA.QLTS\\MISA.QLTS\\QLTS-BE\\MISA.Infrastructure\\MISA.Infrastructure.csproj": {
-              "projectPath": "D:\\Fresher MISA\\BAI_TAP_HCSN_Dao_tao_Fresher\\MISA.QLTS\\MISA.QLTS\\QLTS-BE\\MISA.Infrastructure\\MISA.Infrastructure.csproj"
+            "D:\\Fresher MISA\\BAI_TAP_HCSN_Dao_tao_Fresher\\MISA_QLTS\\QLTS-BE\\MISA.Infrastructure\\MISA.Infrastructure.csproj": {
+              "projectPath": "D:\\Fresher MISA\\BAI_TAP_HCSN_Dao_tao_Fresher\\MISA_QLTS\\QLTS-BE\\MISA.Infrastructure\\MISA.Infrastructure.csproj"
             }
           }
         }

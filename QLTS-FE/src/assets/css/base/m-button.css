@@ -40,6 +40,13 @@
     background-color: #0582A2;
 }
 
+
+/* .m-btn:focus,
+.m-btn-icon:focus {
+    outline: 1px solid #1AA4C8;
+    outline: red;
+} */
+
 .m-btn:active,
 .m-btn-icon:active {
     background-color: #1AA4C8;

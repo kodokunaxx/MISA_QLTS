@@ -1,7 +1,7 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
 import axios from 'axios';
-import * as Resource from './Resource'
+import * as Resource from './resource'
 
 Vue.use(Vuex);
 
@@ -27,13 +27,15 @@ export const store = new Vuex.Store({
         Changed: Resource.Warning.Changed,
         FixRate: Resource.Warning.FixRate,
         FixDYear: Resource.Warning.FixDYear,
+        ErrorDate: Resource.Warning.ErrorDate,
         IsShowDialog: false,
         IsShowDialogForm: false,
         IsShowForm: false,
         IsShowMenuContext: false,
         IsShowToast: false,
         Toast: Resource.Toast,
-        ToastContent: ""
+        ToastContent: "",
+        TitleForm: Resource.TitleForm
     },
     getters: {
         Id: state => state.Id,
@@ -56,6 +58,7 @@ export const store = new Vuex.Store({
         Changed: state => state.Changed,
         FixRate: state => state.FixRate,
         FixDYear: state => state.FixDYear,
+        ErrorDate: state => state.ErrorDate,
         IsShowDialog: state => state.IsShowDialog,
         IsShowDialogForm: state => state.IsShowDialogForm,
         IsShowForm: state => state.IsShowForm,
@@ -63,6 +66,7 @@ export const store = new Vuex.Store({
         IsShowToast: state => state.IsShowToast,
         Toast: state => state.Toast,
         ToastContent: state => state.ToastContent,
+        TitleForm: state => state.TitleForm,
     },
     mutations: {
         setId: (state, payload) => state.Id = payload,
@@ -83,6 +87,10 @@ export const store = new Vuex.Store({
         setToastContent: (state, payload) => state.ToastContent = payload,
     },
     actions: {
+        /**
+         * lấy danh sách phòng ban
+         * CreatedBy: hadm 12/12/2021
+         */
         getDepartments: async context => {
             let HostApi = context.state.HostApi;
             let apiUrl = HostApi + "Departments";
@@ -94,6 +102,10 @@ export const store = new Vuex.Store({
             }
         },
 
+        /**
+         * lấy danh sách loại tài sản
+         * CreatedBy: hadm 12/12/2021
+         */
         getFixedAssetCategorys: async context => {
             let HostApi = context.state.HostApi;
             let apiUrl = HostApi + "FixedAssetCategorys";

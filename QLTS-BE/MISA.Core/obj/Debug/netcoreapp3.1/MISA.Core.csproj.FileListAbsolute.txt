@@ -51,3 +51,14 @@ D:\Fresher MISA\BAI_TAP_HCSN_Dao_tao_Fresher\MISA.QLTS\MISA.QLTS\QLTS-BE\MISA.Co
 D:\Fresher MISA\BAI_TAP_HCSN_Dao_tao_Fresher\MISA.QLTS\MISA.QLTS\QLTS-BE\MISA.Core\obj\Debug\netcoreapp3.1\MISA.Core.csproj.CoreCompileInputs.cache
 D:\Fresher MISA\BAI_TAP_HCSN_Dao_tao_Fresher\MISA.QLTS\MISA.QLTS\QLTS-BE\MISA.Core\obj\Debug\netcoreapp3.1\MISA.Core.dll
 D:\Fresher MISA\BAI_TAP_HCSN_Dao_tao_Fresher\MISA.QLTS\MISA.QLTS\QLTS-BE\MISA.Core\obj\Debug\netcoreapp3.1\MISA.Core.pdb
+D:\Fresher MISA\BAI_TAP_HCSN_Dao_tao_Fresher\MISA_QLTS\QLTS-BE\MISA.Core\bin\Debug\netcoreapp3.1\MISA.Core.deps.json
+D:\Fresher MISA\BAI_TAP_HCSN_Dao_tao_Fresher\MISA_QLTS\QLTS-BE\MISA.Core\bin\Debug\netcoreapp3.1\MISA.Core.dll
+D:\Fresher MISA\BAI_TAP_HCSN_Dao_tao_Fresher\MISA_QLTS\QLTS-BE\MISA.Core\bin\Debug\netcoreapp3.1\MISA.Core.pdb
+D:\Fresher MISA\BAI_TAP_HCSN_Dao_tao_Fresher\MISA_QLTS\QLTS-BE\MISA.Core\obj\Debug\netcoreapp3.1\MISA.Core.csproj.AssemblyReference.cache
+D:\Fresher MISA\BAI_TAP_HCSN_Dao_tao_Fresher\MISA_QLTS\QLTS-BE\MISA.Core\obj\Debug\netcoreapp3.1\MISA.Core.Properties.Resource.resources
+D:\Fresher MISA\BAI_TAP_HCSN_Dao_tao_Fresher\MISA_QLTS\QLTS-BE\MISA.Core\obj\Debug\netcoreapp3.1\MISA.Core.csproj.GenerateResource.cache
+D:\Fresher MISA\BAI_TAP_HCSN_Dao_tao_Fresher\MISA_QLTS\QLTS-BE\MISA.Core\obj\Debug\netcoreapp3.1\MISA.Core.AssemblyInfoInputs.cache
+D:\Fresher MISA\BAI_TAP_HCSN_Dao_tao_Fresher\MISA_QLTS\QLTS-BE\MISA.Core\obj\Debug\netcoreapp3.1\MISA.Core.AssemblyInfo.cs
+D:\Fresher MISA\BAI_TAP_HCSN_Dao_tao_Fresher\MISA_QLTS\QLTS-BE\MISA.Core\obj\Debug\netcoreapp3.1\MISA.Core.csproj.CoreCompileInputs.cache
+D:\Fresher MISA\BAI_TAP_HCSN_Dao_tao_Fresher\MISA_QLTS\QLTS-BE\MISA.Core\obj\Debug\netcoreapp3.1\MISA.Core.dll
+D:\Fresher MISA\BAI_TAP_HCSN_Dao_tao_Fresher\MISA_QLTS\QLTS-BE\MISA.Core\obj\Debug\netcoreapp3.1\MISA.Core.pdb

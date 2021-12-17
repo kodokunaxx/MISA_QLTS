@@ -29,6 +29,7 @@
             :value="fixedAssetCategorys[0].FixedAssetCategoryId"
             item-template="item"
             @value-changed="changeIndex($event, 'fixedAssetCategory')"
+            @focusIn="OpenSelectBox($event)"
           >
             <template #item="{ data }">
               <div>
@@ -60,6 +61,7 @@
             :value="departments[0].DepartmentId"
             item-template="item"
             @value-changed="changeIndex($event, 'department')"
+            @focusIn="OpenSelectBox($event)"
           >
             <template #item="{ data }">
               <div>
@@ -199,7 +201,11 @@
           </tr>
         </tbody>
       </table>
-      <div class="m-fit-content" id="fit-content"></div>
+      <div
+        class="m-fit-content"
+        id="fit-content"
+        :class="fixedAssets.length < 1 ? 'no-data' : ''"
+      ></div>
       <div class="general">
         <div class="general-left">
           <div style="width: 180px; padding-left: 16px">
@@ -361,6 +367,7 @@ export default {
   filters: {
     /**
      * xử lý dữ liệu tiền
+     * CreatedBy: hadm 12/12/2021
      */
     handleNumer(salary) {
       if (salary == null || salary == undefined) salary = 0;
@@ -370,7 +377,19 @@ export default {
   },
   methods: {
     /**
+     * xổ dropdown
+     */
+    OpenSelectBox(e) {
+      const needOpen =
+        !e.component._popup || e.component._popup.option("visible") == false;
+      if (needOpen) {
+        setTimeout(() => e.component.open(), 200);
+      }
+    },
+
+    /**
      * hiển thị form
+     * CreatedBy: hadm 12/12/2021
      */
     showForm(id, formMode) {
       this.isReplication = formMode;
@@ -380,6 +399,7 @@ export default {
 
     /**
      * showDialog
+     * CreatedBy: hadm 12/12/2021
      */
     showDialog() {
       let length = Object.keys(this.mapId).length;
@@ -440,6 +460,7 @@ export default {
 
     /**
      * chọn đồng loạt
+     * CreatedBy: hadm 12/12/2021
      */
     selectAllItem(event) {
       let ele = event.target;
@@ -470,6 +491,7 @@ export default {
     },
     /**
      * select id theo từng hàng
+     * CreatedBy: hadm 12/12/2021
      */
     selectItem(event, val, id) {
       let ele = event.target;
@@ -486,6 +508,7 @@ export default {
     },
     /**
      * tìm kiếm theo keyword
+     * CreatedBy: hadm 12/12/2021
      */
     search() {
       const me = this;
@@ -498,6 +521,7 @@ export default {
 
     /**
      * tính tổng số các dữ liệu
+     * CreatedBy: hadm 12/12/2021
      */
     calculateTotal() {
       let tempTotalQuantity = 0,
@@ -523,6 +547,7 @@ export default {
 
     /**
      * tính khấu hao lũy kế
+     * CreatedBy: hadm 12/12/2021
      */
     setDepreciation(cost, rate) {
       return parseInt((cost * rate) / 100);
@@ -530,6 +555,7 @@ export default {
 
     /**
      * xử lý trước khi load data
+     * CreatedBy: hadm 12/12/2021
      */
     beforeLoad() {
       document.getElementById("checkAll").checked = false;
@@ -541,6 +567,7 @@ export default {
 
     /**
      * xử lý sau khi load data
+     * CreatedBy: hadm 12/12/2021
      */
     afterLoad() {
       this.calculateTotal();
@@ -550,6 +577,7 @@ export default {
 
     /**
      * load data lên table
+     * CreatedBy: hadm 12/12/2021
      */
     async loadData() {
       this.beforeLoad();
@@ -585,6 +613,7 @@ export default {
 
     /**
      * gán index để set select dropdown
+     * CreatedBy: hadm 12/12/2021
      */
     changeIndex(e, type) {
       if (!e) {
@@ -595,11 +624,13 @@ export default {
       } else {
         this.faCategoryId = e.value;
       }
+      this.pageIndex = 1;
       this.loadData();
     },
 
     /**
      * gán dữ liệu cho dropdown Phòng ban
+     * CreatedBy: hadm 12/12/2021
      */
     setDepartment() {
       this.departments = [...this.$store.getters.Departments];
@@ -613,6 +644,7 @@ export default {
     },
     /**
      * gán dữ liệu cho dropdown Loại tài sản
+     * CreatedBy: hadm 12/12/2021
      */
     setFixedAssetCategory() {
       this.fixedAssetCategorys = [...this.$store.getters.FixedAssetCategorys];
@@ -626,6 +658,7 @@ export default {
     },
     /**
      * phân trang
+     * CreatedBy: hadm 12/12/2021
      */
     genPagination() {
       this.totalPageIndex = Math.ceil(this.recordNum / this.pageSize);
@@ -664,6 +697,7 @@ export default {
 
     /**
      * gán giá trị pageIndex
+     * CreatedBy: hadm 12/12/2021
      */
     setPageIndex(index) {
       if (index > 0 && index <= this.totalPageIndex) {
@@ -674,9 +708,11 @@ export default {
 
     /**
      * gán giá trị pageSize
+     * CreatedBy: hadm 12/12/2021
      */
     setPageSize(size) {
       if (size > 0) {
+        this.pageIndex = 1;
         this.pageSize = size;
         this.loadData();
       }
@@ -684,6 +720,7 @@ export default {
 
     /**
      * bật loading
+     * CreatedBy: hadm 12/12/2021
      */
     openLoading() {
       let lst = document.querySelectorAll(".m-table td");
@@ -694,6 +731,7 @@ export default {
 
     /**
      * tắt loading
+     * CreatedBy: hadm 12/12/2021
      */
     closeLoading() {
       let lst = document.querySelectorAll(".m-table td");
@@ -706,6 +744,7 @@ export default {
 
     /**
      * set chiều cao div fit content
+     * CreatedBy: hadm 12/12/2021
      */
     setFitContent() {
       let heightContent = document.querySelector("body").clientHeight;
@@ -721,6 +760,7 @@ export default {
 
     /**
      * xuất file excel
+     * CreatedBy: hadm 12/12/2021
      */
     exportExcel() {
       let param = "";
@@ -745,6 +785,7 @@ export default {
 
     /**
      * show context menu
+     * CreatedBy: hadm 12/12/2021
      */
     showMenuContext(event, id, name) {
       // if (Object.keys(this.mapId).length == 0) {
@@ -758,6 +799,7 @@ export default {
 
     /**
      * tự động đoosng toast
+     * CreatedBy: hadm 12/12/2021
      */
     autoCloseToast() {
       setTimeout(() => {
@@ -881,5 +923,11 @@ export default {
   z-index: 10;
   top: 5px;
   left: 4px;
+}
+
+.m-fit-content.no-data {
+  background-image: url("../../assets/icon/no_data.svg");
+  background-position: center;
+  background-repeat: no-repeat;
 }
 </style>

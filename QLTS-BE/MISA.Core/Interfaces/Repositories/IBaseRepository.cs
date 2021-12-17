@@ -63,7 +63,15 @@ namespace MISA.Core.Interfaces.Repositories
         /// CreatedBy: hadm (11/11/2021)
         /// ModifiedBy: null
         public T GetByProperty(string column, string value, string id);
-        Task<int> DeleteMulti(List<string> listID);
+
+        /// <summary>
+        /// xóa nhiều record
+        /// </summary>
+        /// <param name="listId"></param>
+        /// <returns></returns>
+        /// CreatedBy: hadm (11/11/2021)
+        /// ModifiedBy: null
+        Task<int> DeleteMulti(string[] listId);
         #endregion
     }
 }

@@ -5,6 +5,17 @@
       <Header />
       <Content />
     </div>
+    <div class="fix-screen" v-if="isFalseSize">
+      <img
+        src="./assets/icon/not-support.png"
+        height="120px"
+        width="120px"
+        alt=""
+      />
+      <div class="title m-t-12">
+        Hiện tại chưa hỗ trợ màn hình này, yêu cầu tối thiểu 1024x768
+      </div>
+    </div>
   </div>
 </template>
 
@@ -19,6 +30,32 @@ export default {
     Header,
     Content,
   },
+  data() {
+    return {
+      isFalseSize: false,
+    };
+  },
+  mounted() {
+    window.addEventListener("resize", this.reportWindowSize);
+  },
+  methods: {
+    reportWindowSize() {
+      const heightOutput = window.outerHeight;
+      const widthOutput = window.outerWidth;
+      const cHeight = document.documentElement.clientHeight;
+      const cWidth = document.documentElement.clientWidth;
+      if (
+        heightOutput < 768 ||
+        widthOutput < 1024 ||
+        cWidth < 850 ||
+        cHeight < 350
+      ) {
+        this.isFalseSize = true;
+      } else {
+        this.isFalseSize = false;
+      }
+    },
+  },
 };
 </script>
 
@@ -32,6 +69,25 @@ export default {
 #app .content {
   width: 100%;
   min-width: calc(100vw - 200px);
+}
+
+.fix-screen {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  z-index: 500;
+  background-color: #ffffff;
+}
+
+.fix-screen .title {
+  font-family: MISAGoogleSans-Medium;
+  font-size: 15px;
+  text-align: center;
+  color: #333;
 }
 
 ::-webkit-scrollbar {

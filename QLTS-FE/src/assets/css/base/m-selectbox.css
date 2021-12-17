@@ -63,8 +63,12 @@
 }
 
 .dx-filter .dx-placeholder {
-    color: black;
-    margin-left: 24px;
+    color: black !important;
+    margin-left: 24px !important;
+}
+
+.dx-placeholder {
+    font-family: MISAGoogleSans-Italic;
 }
 
 .dx-filter .dx-selectbox .dx-texteditor-input {

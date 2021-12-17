@@ -176,26 +176,40 @@ namespace MISA.Infrastructure.Repositories
             }
         }
 
-        public async Task<int> DeleteMulti(List<string> listID)
+        /// <summary>
+        /// Xóa nhiều
+        /// </summary>
+        /// <param name="listId">danh sách id cần xóa</param>
+        /// <returns>sô dòng bị xóa</returns>
+        /// CreatedBy: hadm (11/11/2021)
+        /// ModifiedBy: null
+        public async Task<int> DeleteMulti(string[] listId)
         {
             int affectedRow = 0;
             _dbConnection.Open();
             using (var transaction = _dbConnection.BeginTransaction())
             {
+                DynamicParameters dynamicParameters = new DynamicParameters();
+                string sql = $"DELETE FROM {_tableName} WHERE {_tableName}Id IN @ListId;";
 
-                string sqlCommand = $"DELETE FROM {_tableName} WHERE {_tableName}Id IN (";
-                if (listID != null && listID.Count > 0)
-                {
-                    foreach (var item in listID)
-                    {
-                        sqlCommand += $"'{item}', ";
-                    }
-                    sqlCommand = sqlCommand.Substring(0, sqlCommand.Length - 2);
-                    sqlCommand += ")";
-                }
+                dynamicParameters.Add($"@ListId", listId);
 
-                affectedRow = await _dbConnection.ExecuteAsync(sqlCommand, transaction: transaction);
-                if (affectedRow < listID.Count)
+                affectedRow = await _dbConnection.ExecuteAsync(sql, param: dynamicParameters, transaction: transaction);
+
+
+                //string sqlCommand = $"DELETE FROM {_tableName} WHERE {_tableName}Id IN (";
+                //if (listID != null && listID.Count > 0)
+                //{
+                //    foreach (var item in listID)
+                //    {
+                //        sqlCommand += $"'{item}', ";
+                //    }
+                //    sqlCommand = sqlCommand.Substring(0, sqlCommand.Length - 2);
+                //    sqlCommand += ")";
+                //}
+
+                //affectedRow = await _dbConnection.ExecuteAsync(sqlCommand, transaction: transaction);
+                if (affectedRow < listId.Length)
                 {
                     transaction.Rollback();
                 }
