@@ -57,6 +57,35 @@ namespace MISA.Core.Interfaces.Services
         /// CreatedBy: hadm (11/11/2021)
         /// ModifiedBy: null
         public Stream ExportExcel(string keyword, Guid? departmentId, Guid? fixedAssetCategoryId, int pageIndex, int pageSize);
+
+        /// <summary>
+        /// Lấy danh sách bản ghi theo chứng từ Id
+        /// </summary>
+        /// <param name="receiptId">chứng từ id</param>
+        /// <returns>list</returns>
+        /// CreatedBy: hadm (11/11/2021)
+        /// ModifiedBy: null
+        public ServiceResult GetByReceiptId(Guid receiptId);
+
+        /// <summary>
+        /// Cập nhật các bản ghi dựa theo chứng từ Id và tài sản id
+        /// </summary>
+        /// <param name="receiptId">chứng từ Id</param>
+        /// <param name="listId">danh sách tài sản Id</param>
+        /// <returns>rowEffect</returns>
+        /// CreatedBy: hadm (11/11/2021)
+        /// ModifiedBy: null
+        public ServiceResult UpdateByReceiptId(Guid receiptId, string[] listId);
+
+        /// <summary>
+        /// Filter paging tài sản không có chứng từ
+        /// </summary>
+        /// <param name="fixedAssetCode">mã</param>
+        /// <param name="fixedAssetName">tên</param>
+        /// <returns>list</returns>
+        /// CreatedBy: hadm (11/11/2021)
+        /// ModifiedBy: null
+        public ServiceResult GetByReceiptIdNull(string fixedAssetCode, string fixedAssetName);
         #endregion
     }
 }

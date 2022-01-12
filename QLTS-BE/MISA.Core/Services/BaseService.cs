@@ -82,7 +82,7 @@ namespace MISA.Core.Services
         /// <returns>Entity</returns>
         /// CreatedBy: hadm (11/11/2021)
         /// ModifiedBy: null
-        public ServiceResult GetById(Guid entityId)
+        public virtual ServiceResult GetById(Guid entityId)
         {
             ServiceResult serviceResult = new ServiceResult();
             serviceResult.MoreInfo = Properties.Resource.GET;
@@ -107,7 +107,7 @@ namespace MISA.Core.Services
         /// <returns>Số dòng ảnh hưởng trong DB</returns>
         /// CreatedBy: hadm (11/11/2021)
         /// ModifiedBy: null
-        public ServiceResult Insert(T entity)
+        public virtual ServiceResult Insert(T entity)
         {
             ServiceResult serviceResult = CheckValidate(entity, null);
             setValueEntity(entity);
@@ -332,6 +332,16 @@ namespace MISA.Core.Services
                     break;
             }
             return "";
+        }
+
+        public ServiceResult GetLastId()
+        {
+            ServiceResult serviceResult = new ServiceResult();
+            serviceResult.MoreInfo = Properties.Resource.GET;
+            var data = _baseRepository.GetLastId();
+            serviceResult.SetSuccess(serviceResult, data);
+
+            return serviceResult;
         }
         #endregion
 

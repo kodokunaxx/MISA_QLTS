@@ -53,12 +53,12 @@
 
 .dx-widget input,
 .dx-widget textarea {
-    font-family: MISAGoogleSans !important;
+    font-family: MISARoboto !important;
     font-size: 13px !important;
 }
 
 .dx-widget {
-    font-family: MISAGoogleSans !important;
+    font-family: MISARoboto !important;
     font-size: 13px !important;
 }
 
@@ -68,7 +68,7 @@
 }
 
 .dx-placeholder {
-    font-family: MISAGoogleSans-Italic;
+    font-family: MISARoboto-Italic;
 }
 
 .dx-filter .dx-selectbox .dx-texteditor-input {

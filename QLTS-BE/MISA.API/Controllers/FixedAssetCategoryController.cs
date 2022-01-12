@@ -9,12 +9,30 @@ using System.Threading.Tasks;
 
 namespace MISA.AmisAPI.Controllers
 {
-
+    /// <summary>
+    /// Loại tài sản Controller
+    /// </summary>
+    /// CreatedBy: hadm (11/11/2021)
+    /// ModifiedBy: null
     public class FixedAssetCategoryController : BaseController<FixedAssetCategory>
     {
         public FixedAssetCategoryController(IBaseService<FixedAssetCategory> baseService) : base(baseService)
         {
+            #region Delclare
 
+            #endregion
+
+            #region Property
+
+            #endregion
+
+            #region Constructor
+
+            #endregion
+
+            #region Method
+
+            #endregion
         }
     }
 }

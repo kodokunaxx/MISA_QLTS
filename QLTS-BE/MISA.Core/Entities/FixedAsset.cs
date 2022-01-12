@@ -56,6 +56,14 @@ namespace MISA.Core.Entities
         /// </summary>
         public string FixedAssetCategoryName { get; set; }
         /// <summary>
+        /// Chứng từ Id
+        /// </summary>
+        public Guid? ReceiptId { get; set; }
+        /// <summary>
+        /// Mã chứng từ
+        /// </summary>
+        public string ReceiptCode { get; set; }
+        /// <summary>
         /// Ngày mua
         /// </summary>
         [Required]
@@ -97,6 +105,11 @@ namespace MISA.Core.Entities
         /// Sử dụng: Đã - Chưa
         /// </summary>
         public bool? Active { get; set; }
+        /// <summary>
+        /// List Tài sản nguồn
+        /// </summary>
+        [Obj]
+        public IEnumerable<AssetResource> AssetResources { get; set; }
         #endregion
 
         #region Constructor

@@ -22,6 +22,7 @@ namespace MISA.Core.Services
     public class FixedAssetService : BaseService<FixedAsset>, IFixedAssetService
     {
         #region Declare
+        IAssetResourceRepository _assetResourceRepository;
         IFixedAssetRepository _fixedAssetRepository;
         #endregion
 
@@ -29,9 +30,10 @@ namespace MISA.Core.Services
 
         #endregion
         #region Constructor
-        public FixedAssetService(IFixedAssetRepository fixedAssetRepository) : base(fixedAssetRepository)
+        public FixedAssetService(IFixedAssetRepository fixedAssetRepository, IAssetResourceRepository asset_ResourceRepository) : base(fixedAssetRepository)
         {
             _fixedAssetRepository = fixedAssetRepository;
+            _assetResourceRepository = asset_ResourceRepository;
         }
 
         #endregion
@@ -239,6 +241,70 @@ namespace MISA.Core.Services
             package.Save();
             stream.Position = 0;
             return package.Stream;
+        }
+
+        public override ServiceResult Insert(FixedAsset entity)
+        {
+            ServiceResult serviceResult = CheckValidate(entity, null);
+            setValueEntity(entity);
+            serviceResult.MoreInfo = Properties.Resource.POST;
+
+            if (serviceResult.ResultCode == (int)CodeResult.Success)
+            {
+                var rowEffects = _fixedAssetRepository.Insert(entity);
+
+                if (rowEffects > 0)
+                {
+                    serviceResult.SetSuccess(serviceResult, rowEffects);
+                    serviceResult.ResultCode = (int)Enumerations.CodeResult.Created;
+                    Guid lastId = _fixedAssetRepository.GetLastId();
+                    AssetResource asset_Resource = new AssetResource()
+                    {
+                        FixedAssetId = lastId,
+                        ResourceId = Guid.Parse("3fe29540-7182-343d-f9ac-2c73cbe1da8e"),
+                        Budget = entity.Cost
+                    };
+                    _assetResourceRepository.Insert(asset_Resource);
+                }
+                else
+                {
+                    serviceResult.SetBadRequest(serviceResult);
+                    serviceResult.DevMessage.Add(Properties.Resource.Dev_Info_Msg);
+                }
+            }
+
+
+            return serviceResult;
+        }
+
+        public ServiceResult GetByReceiptId(Guid receiptId)
+        {
+            ServiceResult serviceResult = new ServiceResult();
+            var data = _fixedAssetRepository.GetByReceiptId(receiptId);
+            serviceResult.MoreInfo = Properties.Resource.GET;
+            serviceResult.SetSuccess(serviceResult, data);
+            return serviceResult;
+        }
+
+        public ServiceResult UpdateByReceiptId(Guid receiptId, string[] listId)
+        {
+            ServiceResult serviceResult = new ServiceResult();
+            var rowEffect = _fixedAssetRepository.UpdateByReceiptId(receiptId, listId);
+            serviceResult.MoreInfo = Properties.Resource.PUT;
+            serviceResult.SetSuccess(serviceResult, rowEffect);
+            return serviceResult;
+
+        }
+
+        public ServiceResult GetByReceiptIdNull(string fixedAssetCode, string fixedAssetName)
+        {
+
+            ServiceResult serviceResult = new ServiceResult();
+            serviceResult.MoreInfo = Properties.Resource.GET;
+            var data = _fixedAssetRepository.GetByReceiptIdNull(fixedAssetCode, fixedAssetName);
+            serviceResult.SetSuccess(serviceResult, data);
+
+            return serviceResult;
         }
 
         #endregion

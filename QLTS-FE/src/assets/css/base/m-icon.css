@@ -47,6 +47,53 @@
     min-height: 48px;
 }
 
+.icon-resize-height {
+    background-image: url("../../icon/split-vertical-26.png");
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: contain;
+}
+
+.icon-add-row {
+    background: url("../../icon/qlts-icon.svg") no-repeat -372px -416px;
+}
+
+.icon-remove-row {
+    background: url("../../icon/qlts-icon.svg") no-repeat -372px -460px;
+}
+
+.icon-fullsize {
+    background: url("../../icon/qlts-icon.svg") no-repeat -284px -328px;
+}
+
+.icon-collapse {
+    background: url("../../icon/qlts-icon.svg") no-repeat -240px -328px;
+}
+
+.icon-print {
+    background: url("../../icon/qlts-icon.svg") no-repeat -328px -64px;
+}
+
+.icon-more {
+    background: url("../../icon/qlts-icon.svg") no-repeat -372px -20px;
+}
+
+.icon-horizontal {
+    background: url("../../icon/qlts-icon.svg") no-repeat -108px -416px;
+}
+
+.icon-vertical {
+    background: url("../../icon/qlts-icon.svg") no-repeat -20px -416px;
+}
+
+.icon-dropdown2 {
+    background: url("../../icon/qlts-icon.svg") no-repeat -152px -240px;
+}
+
+.icon-right-arrow {
+    background: url("../../icon/qlts-icon.svg") no-repeat -240px -284px;
+}
+
 .icon-increase {
     background: url("../../icon/qlts-icon.svg") no-repeat -25px -332px;
 }
@@ -83,8 +130,16 @@
     background: url("../../icon/qlts-icon.svg")no-repeat -65px -240px;
 }
 
+.icon-add {
+    background: url("../../icon/qlts-icon.svg")no-repeat -152px -108px;
+}
+
 .icon-edit {
     background: url("../../icon/qlts-icon.svg")no-repeat -153px -64px;
+}
+
+.icon-delete {
+    background: url("../../icon/qlts-icon.svg")no-repeat -416px -108px;
 }
 
 .icon-replication {

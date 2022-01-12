@@ -84,7 +84,7 @@ export default {
 }
 
 .fix-screen .title {
-  font-family: MISAGoogleSans-Medium;
+  font-family: MISARoboto-Medium;
   font-size: 15px;
   text-align: center;
   color: #333;
@@ -122,5 +122,35 @@ input[type="checkbox"] {
 .icon-24.action:active {
   background-color: #ededed;
   border-radius: 4px;
+}
+
+.sum {
+  color: #ffffff;
+}
+
+.tooltip {
+  color: red;
+  position: absolute;
+  bottom: -16px;
+  display: none;
+}
+.tooltip-duplicate {
+  color: red;
+  position: absolute;
+  bottom: -16px;
+  display: none;
+}
+
+.field-disable {
+  line-height: 35px;
+  align-items: center;
+  background: #f5f5f5;
+  height: 35px;
+  border-radius: 4px;
+  padding: 0 14px;
+  border: 1px solid #bbbbbb;
+}
+.disable-icon {
+  opacity: 0.3;
 }
 </style>

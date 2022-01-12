@@ -32,7 +32,7 @@
 
 <script>
 export default {
-  props: ["dialogMode", "mapId", "faCode", "nameRequired"],
+  props: ["dialogMode", "mapId", "itemCode", "nameRequired", "code"],
   components: {},
   data() {
     return {
@@ -55,7 +55,7 @@ export default {
   methods: {
     /**
      * xử lý sự kiện cho sub button
-     * CreatedBy: hadm 12/12/2021
+     * CreatedBy: Đỗ Mạnh Hà - 01/01/2022
      */
     handleSublineButton() {
       switch (this.mode) {
@@ -70,7 +70,7 @@ export default {
 
     /**
      * xử lý sự kiện cho outline button
-     * CreatedBy: hadm 12/12/2021
+     * CreatedBy: Đỗ Mạnh Hà - 01/01/2022
      */
     handleOutlineButton() {
       switch (this.mode) {
@@ -86,7 +86,15 @@ export default {
         case this.modeList.CancelAdd:
           this.closeDialog();
           break;
-
+        case this.modeList.DeleteReceipt:
+          this.closeDialog();
+          break;
+        case this.modeList.MultiDeleteReceipt:
+          this.closeDialog();
+          break;
+        case this.modeList.CancelAddReceipt:
+          this.closeDialog();
+          break;
         default:
           break;
       }
@@ -94,7 +102,7 @@ export default {
 
     /**
      * xử lý sự kiện cho main button
-     * CreatedBy: hadm 12/12/2021
+     * CreatedBy: Đỗ Mạnh Hà - 01/01/2022
      */
     handleMainButton() {
       switch (this.mode) {
@@ -111,11 +119,12 @@ export default {
           this.closeDialog();
           break;
         case this.modeList.Duplicate:
-          this.closeDialog();
+          this.closeDialogFocus();
           break;
         case this.modeList.GetByIdFail:
           this.closeDialog();
           this.$store.commit("setIsShowForm", false);
+          this.$store.commit("setIsShowReceiptForm", false);
           break;
         case this.modeList.Changed:
           this.closeDialog();
@@ -136,6 +145,21 @@ export default {
         case this.modeList.ErrorDate:
           this.closeDialog();
           break;
+        case this.modeList.DeleteReceipt:
+          this.$emit("funct");
+          break;
+        case this.modeList.MultiDeleteReceipt:
+          this.$emit("funct");
+          break;
+        case this.modeList.DuplicateReceipt:
+          this.closeDialogFocus();
+          break;
+        case this.modeList.CancelAddReceipt:
+          this.closeDialogAndForm();
+          break;
+        case this.modeList.AssetNull:
+          this.closeDialog();
+          break;
         default:
           break;
       }
@@ -143,14 +167,14 @@ export default {
 
     /**
      * set text, event theo dialogMode
-     * CreatedBy: hadm 12/12/2021
+     * CreatedBy: Đỗ Mạnh Hà - 01/01/2022
      */
     setDialogByMode() {
       let dialogContent = document.querySelector(
         ".m-dialog-content .error-text"
       );
       switch (this.mode) {
-        // Dialog Xoá
+        // Dialog Xoá tài sản
         case this.modeList.Delete:
           this.btnOutline = this.btnText.No;
           this.btnMain = this.btnText.Delete;
@@ -159,7 +183,7 @@ export default {
           dialogContent.innerHTML = this.$store.getters.Delete;
           break;
 
-        // Dialog Xoá nhiều
+        // Dialog Xoá nhiều tài sản
         case this.modeList.MultiDelete:
           this.btnOutline = this.btnText.No;
           this.btnMain = this.btnText.Delete;
@@ -175,7 +199,7 @@ export default {
           this.btnMain = this.btnText.Close;
           this.isShowBtnOutline = false;
           this.isShowBtnSub = false;
-          this.$store.commit("setDuplicate", this.faCode);
+          this.$store.commit("setDuplicate", this.itemCode);
           dialogContent.innerHTML = this.$store.getters.Duplicate;
           break;
         // Dialog Xóa lỗi
@@ -183,6 +207,7 @@ export default {
           this.btnMain = this.btnText.Close;
           this.isShowBtnOutline = false;
           this.isShowBtnSub = false;
+          this.$store.commit("setErrorDelete", this.code);
           dialogContent.innerHTML = this.$store.getters.ErrorDelete;
           break;
         // Dialog Xoá nhiều lỗi
@@ -192,7 +217,7 @@ export default {
           this.isShowBtnSub = false;
           this.$store.commit(
             "setErrorMultiDelete",
-            this.handleCount(this.countItem)
+            this.handleCount(this.countItem) + "~" + this.code
           );
           dialogContent.innerHTML = this.$store.getters.ErrorMultiDelete;
           break;
@@ -243,6 +268,45 @@ export default {
           this.isShowBtnSub = false;
           dialogContent.innerHTML = this.$store.getters.ErrorDate;
           break;
+        // Dialog Xoá chứng từ
+        case this.modeList.DeleteReceipt:
+          this.btnOutline = this.btnText.No;
+          this.btnMain = this.btnText.Delete;
+          this.isShowBtnSub = false;
+          this.$store.commit("setDeleteReceipt", Object.values(this.mapId)[0]);
+          dialogContent.innerHTML = this.$store.getters.DeleteReceipt;
+          break;
+        // Dialog Xoá nhiều chứng từ
+        case this.modeList.MultiDeleteReceipt:
+          this.btnOutline = this.btnText.No;
+          this.btnMain = this.btnText.Delete;
+          this.isShowBtnSub = false;
+          this.$store.commit(
+            "setMultiDeleteReceipt",
+            this.handleCount(this.countItem)
+          );
+          dialogContent.innerHTML = this.$store.getters.MultiDeleteReceipt;
+          break;
+        // Dialog Trùng mã
+        case this.modeList.DuplicateReceipt:
+          this.btnMain = this.btnText.Close;
+          this.isShowBtnOutline = false;
+          this.isShowBtnSub = false;
+          this.$store.commit("setDuplicateReceipt", this.itemCode);
+          dialogContent.innerHTML = this.$store.getters.DuplicateReceipt;
+          break;
+        case this.modeList.CancelAddReceipt:
+          this.btnMain = this.btnText.Cancel;
+          this.btnOutline = this.btnText.No;
+          this.isShowBtnSub = false;
+          dialogContent.innerHTML = this.$store.getters.CancelAddReceipt;
+          break;
+        case this.modeList.AssetNull:
+          this.btnMain = this.btnText.Close;
+          this.isShowBtnOutline = false;
+          this.isShowBtnSub = false;
+          dialogContent.innerHTML = this.$store.getters.AssetNull;
+          break;
         default:
           break;
       }
@@ -250,7 +314,7 @@ export default {
 
     /**
      * xử lý số lượng tài sản xóa
-     * CreatedBy: hadm 12/12/2021
+     * CreatedBy: Đỗ Mạnh Hà - 01/01/2022
      */
     handleCount(count) {
       if (count < 10) return `0${count}`;
@@ -259,7 +323,7 @@ export default {
 
     /**
      * đóng dialog
-     * CreatedBy: hadm 12/12/2021
+     * CreatedBy: Đỗ Mạnh Hà - 01/01/2022
      */
     closeDialog() {
       this.$store.commit("setIsShowDialog", false);
@@ -268,17 +332,18 @@ export default {
 
     /**
      * đóng dialog + form
-     * CreatedBy: hadm 12/12/2021
+     * CreatedBy: Đỗ Mạnh Hà - 01/01/2022
      */
     closeDialogAndForm() {
       this.$store.commit("setIsShowDialog", false);
       this.$store.commit("setIsShowDialogForm", false);
       this.$store.commit("setIsShowForm", false);
+      this.$store.commit("setIsShowReceiptForm", false);
     },
 
     /**
      * close Dialog and focus
-     * CreatedBy: hadm 12/12/2021
+     * CreatedBy: Đỗ Mạnh Hà - 01/01/2022
      */
     closeDialogFocus() {
       this.$store.commit("setIsShowDialogForm", false);

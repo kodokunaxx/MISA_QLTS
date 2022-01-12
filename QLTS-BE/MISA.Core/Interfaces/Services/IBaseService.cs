@@ -57,7 +57,21 @@ namespace MISA.Core.Interfaces.Services
         /// ModifiedBy: null
         public ServiceResult Delete(Guid entityId);
 
-
+        /// <summary>
+        /// xóa nhiều record
+        /// </summary>
+        /// <param name="listId"></param>
+        /// <returns></returns>
+        /// CreatedBy: hadm (11/11/2021)
+        /// ModifiedBy: null
         Task<ServiceResult> DeleteMultiAsync(string[] listId);
+
+        /// <summary>
+        /// Lấy ra Id gần đây nhất
+        /// </summary>
+        /// <returns>last id</returns>
+        /// CreatedBy: hadm (11/11/2021)
+        /// ModifiedBy: null
+        public ServiceResult GetLastId();
     }
 }

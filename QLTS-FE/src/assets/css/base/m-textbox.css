@@ -6,6 +6,7 @@
     width: 100%;
     min-width: 110px;
     background-color: #ffffff;
+    position: relative;
 }
 
 .m-textbox-icon .icon-16 {
@@ -21,7 +22,7 @@
     outline: none;
     padding: 0 14px;
     border: 1px solid #bbbbbb;
-    font-family: MISAGoogleSans;
+    font-family: MISARoboto;
     width: 100%;
     overflow: hidden;
     white-space: nowrap;

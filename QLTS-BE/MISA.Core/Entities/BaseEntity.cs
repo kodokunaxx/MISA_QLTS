@@ -49,6 +49,17 @@ namespace MISA.Core.Entities
     }
 
     /// <summary>
+    /// Cờ Object 
+    /// </summary>
+    /// CreatedBy: hadm (11/11/2021)
+    /// ModifiedBy: null
+    [AttributeUsage(AttributeTargets.Property)]
+    public class Obj : Attribute
+    {
+
+    }
+
+    /// <summary>
     /// Lớp Properties chung
     /// </summary>
     /// CreatedBy: hadm (11/11/2021)

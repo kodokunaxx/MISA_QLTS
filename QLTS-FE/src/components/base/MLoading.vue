@@ -12,6 +12,7 @@ export default {};
 
 <style>
 .m-loading {
+  user-select: none;
   position: absolute;
   top: 0;
   bottom: 0;

@@ -81,13 +81,21 @@
       </div>
       <div class="tool-right">
         <button class="m-btn" @click="showForm(null, false)">
-          + Thêm tài sản
+          Thêm tài sản
         </button>
-        <button class="btn-logo m-x-11">
-          <div class="icon-24 icon-excel" @click="exportExcel()"></div>
+        <button
+          class="btn-logo m-x-11 m-tooltip-site excel"
+          @click="exportExcel()"
+        >
+          <div class="icon-24 icon-excel"></div>
+          <Tooltip :content="'Xuất Excel'" />
         </button>
-        <button class="btn-logo" @click="showDialog()">
-          <div class="icon-24 icon-trash"></div>
+        <button class="btn-logo m-tooltip-site" @click="showDialog()">
+          <div
+            class="icon-24 icon-trash"
+            :class="hasId ? '' : 'disable-icon'"
+          ></div>
+          <Tooltip :content="'Xóa'" v-show="hasId" />
         </button>
       </div>
     </div>
@@ -104,17 +112,28 @@
                 @click="selectAllItem($event)"
               />
             </th>
-            <th class="very-short-width">STT</th>
-            <th class="short-width">Mã tài sản</th>
-            <th class="long-width">Tên tài sản</th>
-            <th class="long-width">Loại tài sản</th>
-            <th class="long-width">Bộ phận sử dụng</th>
-            <th class="short-width text-right">Số lượng</th>
-            <th class="medium-width text-right">Nguyên giá</th>
-            <th class="medium-width text-right">HM/KH lũy kế</th>
-            <th class="medium-width text-right">Giá trị còn lại</th>
-            <th class="short-width text-center header-feature-sticky">
-              Chức năng
+            <th class="very-short-width text-center">
+              <div class="text">STT</div>
+            </th>
+            <th class="short-width"><div class="text">Mã tài sản</div></th>
+            <th class="long-width"><div class="text">Tên tài sản</div></th>
+            <th class="long-width"><div class="text">Loại tài sản</div></th>
+            <th class="long-width"><div class="text">Bộ phận sử dụng</div></th>
+            <th class="short-width text-right">
+              <div class="text">Số lượng</div>
+            </th>
+            <th class="medium-width text-right">
+              <div class="text">Nguyên giá</div>
+            </th>
+            <th class="medium-width m-tooltip-site text-right">
+              <div class="text">HM/KH lũy kế</div>
+              <Tooltip :content="'Hao mòn/Khấu hao lỹ kế'" />
+            </th>
+            <th class="medium-width text-right">
+              <div class="text">Giá trị còn lại</div>
+            </th>
+            <th class="medium-width">
+              <div class="text">Trạng thái</div>
             </th>
           </tr>
         </thead>
@@ -123,11 +142,19 @@
             v-for="(fixedAsset, index) in fixedAssets"
             :key="fixedAsset.FixedAssetId"
             @dblclick="showForm(fixedAsset.FixedAssetId, false)"
+            @click="
+              selectRow(
+                `${fixedAsset.FixedAssetCode} - ${fixedAsset.FixedAssetName}`,
+                fixedAsset.FixedAssetId,
+                index
+              )
+            "
             @contextmenu="
               showMenuContext(
                 $event,
                 fixedAsset.FixedAssetId,
-                fixedAsset.FixedAssetName
+                `${fixedAsset.FixedAssetCode} - ${fixedAsset.FixedAssetName}`,
+                index
               )
             "
           >
@@ -141,62 +168,95 @@
                   selectItem(
                     $event,
                     `${fixedAsset.FixedAssetCode} - ${fixedAsset.FixedAssetName}`,
-                    fixedAsset.FixedAssetId
+                    fixedAsset.FixedAssetId,
+                    index
                   )
                 "
               />
             </td>
-            <td class="very-short-width">
-              {{ index + 1 + (pageIndex - 1) * pageSize }}
+            <td class="very-short-width text-center">
+              <div class="text">
+                {{ index + 1 + (pageIndex - 1) * pageSize }}
+              </div>
             </td>
             <td class="short-width">
-              {{ fixedAsset.FixedAssetCode }}
+              <div class="text">{{ fixedAsset.FixedAssetCode }}</div>
             </td>
-            <td class="long-width" :title="fixedAsset.FixedAssetName">
-              {{ fixedAsset.FixedAssetName }}
+            <td class="long-width">
+              <div class="text">{{ fixedAsset.FixedAssetName }}</div>
+              <Tooltip :content="fixedAsset.FixedAssetName" :bottom="'-16px'" />
             </td>
-            <td class="long-width" :title="fixedAsset.FixedAssetCategoryName">
-              {{ fixedAsset.FixedAssetCategoryName }}
+            <td class="long-width">
+              <div class="text">{{ fixedAsset.FixedAssetCategoryName }}</div>
+              <Tooltip
+                :content="fixedAsset.FixedAssetCategoryName"
+                :bottom="'-16px'"
+              />
             </td>
-            <td class="long-width" :title="fixedAsset.DepartmentName">
-              {{ fixedAsset.DepartmentName }}
+            <td class="long-width">
+              <div class="text">{{ fixedAsset.DepartmentName }}</div>
+              <Tooltip :content="fixedAsset.DepartmentName" :bottom="'-16px'" />
             </td>
             <td class="short-width text-right">
-              {{ fixedAsset.Quantity | handleNumer }}
+              <div class="text">{{ fixedAsset.Quantity | handleNumer }}</div>
             </td>
             <td class="medium-width text-right">
-              {{ fixedAsset.Cost | handleNumer }}
+              <div class="text">{{ fixedAsset.Cost | handleNumer }}</div>
             </td>
             <td class="medium-width text-right">
-              {{
-                setDepreciation(fixedAsset.Cost, fixedAsset.DepreciationRate)
-                  | handleNumer
-              }}
+              <div class="text">
+                {{
+                  setDepreciation(fixedAsset.Cost, fixedAsset.DepreciationRate)
+                    | handleNumer
+                }}
+              </div>
             </td>
             <td class="medium-width text-right">
-              {{
-                (fixedAsset.Cost -
-                  setDepreciation(fixedAsset.Cost, fixedAsset.DepreciationRate))
-                  | handleNumer
-              }}
+              <div class="text">
+                {{
+                  (fixedAsset.Cost -
+                    setDepreciation(
+                      fixedAsset.Cost,
+                      fixedAsset.DepreciationRate
+                    ))
+                    | handleNumer
+                }}
+              </div>
             </td>
-            <td
-              class="
-                w-full
-                feature-sticky
-                dis-flex
-                align-items-center
-                justify-content-center
-              "
-            >
-              <div
-                class="icon-24 action icon-edit m-r-6"
-                @click="showForm(fixedAsset.FixedAssetId, false)"
-              ></div>
-              <div
-                class="icon-24 action icon-replication"
-                @click="showForm(fixedAsset.FixedAssetId, true)"
-              ></div>
+            <td class="last-col medium-width">
+              <div class="text">
+                {{
+                  fixedAsset.ReceiptId != null
+                    ? "Đang sử dụng"
+                    : "Chưa ghi tăng"
+                }}
+              </div>
+              <div class="tool">
+                <div
+                  class="icon-24 action m-tooltip-site icon-edit m-l-6"
+                  @click="showForm(fixedAsset.FixedAssetId, false)"
+                >
+                  <Tooltip :content="'Sửa'" :left="'-6px'" />
+                </div>
+                <div
+                  class="icon-24 action m-tooltip-site icon-trash m-l-6"
+                  @click="
+                    deleteRow(
+                      `${fixedAsset.FixedAssetCode} - ${fixedAsset.FixedAssetName}`,
+                      fixedAsset.FixedAssetId,
+                      index
+                    )
+                  "
+                >
+                  <Tooltip :content="'Xóa'" :left="'-6px'" />
+                </div>
+                <div
+                  class="icon-24 action m-tooltip-site icon-replication m-l-6"
+                  @click="showForm(fixedAsset.FixedAssetId, true)"
+                >
+                  <Tooltip :content="'Nhân bản'" :left="'-32px'" />
+                </div>
+              </div>
             </td>
           </tr>
         </tbody>
@@ -210,9 +270,7 @@
         <div class="general-left">
           <div style="width: 180px; padding-left: 16px">
             Tổng số:
-            <span style="font-family: MISAGoogleSans-Bold">{{
-              recordNum
-            }}</span>
+            <span style="font-family: MISARoboto-Bold">{{ recordNum }}</span>
             bản ghi
           </div>
           <DxSelectBox
@@ -254,7 +312,8 @@
             ></div>
           </div>
         </div>
-        <div class="general-right">
+        <div class="general-middle"></div>
+        <div class="general-right" :class="fixedAssets.length > 0 ? '' : 'sum'">
           <div class="g-right-item" style="width: 100px">
             {{ totals.TotalQuantity | handleNumer }}
           </div>
@@ -267,7 +326,7 @@
           <div class="g-right-item" style="width: 135px">
             {{ totals.TotalResidual | handleNumer }}
           </div>
-          <div class="g-right-item feature-sticky" style="width: 100px"></div>
+          <div class="g-right-item" style="width: 135px"></div>
         </div>
       </div>
     </div>
@@ -280,6 +339,7 @@
     <Dialog
       :dialogMode="dialogMode"
       :mapId="mapId"
+      :code="receiptCode"
       v-if="this.$store.getters.IsShowDialog"
       @funct="deleteFA()"
     />
@@ -289,10 +349,10 @@
       :top="top"
       :left="left"
       :mapId="mapId"
-      @deleteFA="showDialog()"
-      @replicationFA="showForm($event, true)"
-      @addFA="showForm(null, false)"
-      @editFA="showForm($event, false)"
+      @delete="showDialog()"
+      @replication="showForm($event, true)"
+      @add="showForm(null, false)"
+      @edit="showForm($event, false)"
     />
     <Toast
       v-if="this.$store.getters.IsShowToast"
@@ -304,12 +364,13 @@
 
 <script>
 import DxSelectBox from "devextreme-vue/select-box";
-import Dialog from "../base/MDialog.vue";
+import Dialog from "../../base/MDialog.vue";
 import Form from "./MFixedAssetDetail.vue";
 import axios from "axios";
-import Loading from "../base/MLoading.vue";
-import MenuContext from "../base/MContext.vue";
-import Toast from "../base/MToast.vue";
+import Loading from "../../base/MLoading.vue";
+import MenuContext from "../../base/MContext.vue";
+import Toast from "../../base/MToast.vue";
+import Tooltip from "../../base/MTooltip.vue";
 export default {
   components: {
     DxSelectBox,
@@ -318,6 +379,7 @@ export default {
     Loading,
     MenuContext,
     Toast,
+    Tooltip,
   },
   data() {
     return {
@@ -355,6 +417,10 @@ export default {
       id: null,
       isReplication: false,
       isLoading: false,
+      startRow: -1,
+      endRow: -1,
+      receiptCode: "",
+      hasId: false,
     };
   },
   async created() {
@@ -367,7 +433,7 @@ export default {
   filters: {
     /**
      * xử lý dữ liệu tiền
-     * CreatedBy: hadm 12/12/2021
+     * CreatedBy: Đỗ Mạnh Hà - 01/01/2022
      */
     handleNumer(salary) {
       if (salary == null || salary == undefined) salary = 0;
@@ -375,9 +441,66 @@ export default {
       return result;
     },
   },
+  updated() {
+    this.setTooltip();
+  },
+  mounted() {
+    this.setFitContent();
+  },
   methods: {
     /**
+     * check mapid có null hay không để set style cho button
+     * CreatedBy: Đỗ Mạnh Hà - 01/01/2022
+     */
+    checkMapIdNull() {
+      if (Object.keys(this.mapId).length > 0) {
+        this.hasId = true;
+      } else {
+        this.hasId = false;
+      }
+    },
+
+    /**
+     * check có chứng từ không
+     * CreatedBy: Đỗ Mạnh Hà - 01/01/2022
+     */
+    checkHasReceipt() {
+      let length = Object.keys(this.mapId).length;
+      let tempAssets = this.fixedAssets.filter(this.filterAssetByMapId);
+      if (length == 1) {
+        if (tempAssets[0].ReceiptId != null) {
+          this.receiptCode = tempAssets[0].ReceiptCode;
+          this.dialogMode = this.$store.getters.DialogMode.ErrorDelete;
+          this.$store.commit("setIsShowDialog", true);
+          return true;
+        }
+      } else {
+        for (let i = 0; i < tempAssets.length; i++) {
+          if (tempAssets[i].ReceiptId != null) {
+            this.dialogMode = this.$store.getters.DialogMode.ErrorMultiDelete;
+            this.receiptCode = tempAssets[i].FixedAssetCode;
+            this.$store.commit("setIsShowDialog", true);
+            return true;
+          }
+        }
+      }
+      return false;
+    },
+
+    /**
+     * lọc lấy các tài sản có id trong map Id
+     * CreatedBy: Đỗ Mạnh Hà - 01/01/2022
+     */
+    filterAssetByMapId(asset) {
+      for (let i = 0; i < Object.keys(this.mapId).length; i++) {
+        if (asset.FixedAssetId == Object.keys(this.mapId)[i]) return true;
+      }
+      return false;
+    },
+
+    /**
      * xổ dropdown
+     * CreatedBy: Đỗ Mạnh Hà - 01/01/2022
      */
     OpenSelectBox(e) {
       const needOpen =
@@ -389,7 +512,7 @@ export default {
 
     /**
      * hiển thị form
-     * CreatedBy: hadm 12/12/2021
+     * CreatedBy: Đỗ Mạnh Hà - 01/01/2022
      */
     showForm(id, formMode) {
       this.isReplication = formMode;
@@ -399,13 +522,17 @@ export default {
 
     /**
      * showDialog
-     * CreatedBy: hadm 12/12/2021
+     * CreatedBy: Đỗ Mạnh Hà - 01/01/2022
      */
     showDialog() {
       let length = Object.keys(this.mapId).length;
       if (length <= 0) {
         return;
-      } else if (length === 1) {
+      }
+      if (this.checkHasReceipt()) {
+        return;
+      }
+      if (length === 1) {
         this.dialogMode = this.$store.getters.DialogMode.Delete;
         this.$store.commit("setIsShowDialog", true);
       } else {
@@ -414,6 +541,19 @@ export default {
       }
     },
 
+    /**
+     * xóa hàng
+     * CreatedBy: Đỗ Mạnh Hà - 01/01/2022
+     */
+    deleteRow(val, id, index) {
+      this.selectRow(val, id, index);
+      this.showDialog();
+    },
+
+    /**
+     * Xóa
+     * CreatedBy: Đỗ Mạnh Hà - 01/01/2022
+     */
     deleteFA() {
       let length = Object.keys(this.mapId).length;
       this.isLoading = true;
@@ -440,7 +580,6 @@ export default {
         })
         .catch((error) => {
           this.$store.commit("setIsShowDialog", false);
-          console.log(this.$store.getters.IsShowDialog);
           this.isLoading = false;
           if (error.response.status === 400 || error.response.status === 500) {
             if (length == 1) {
@@ -460,7 +599,7 @@ export default {
 
     /**
      * chọn đồng loạt
-     * CreatedBy: hadm 12/12/2021
+     * CreatedBy: Đỗ Mạnh Hà - 01/01/2022
      */
     selectAllItem(event) {
       let ele = event.target;
@@ -486,29 +625,119 @@ export default {
             checkbox.checked = false;
             delete this.mapId[element.FixedAssetId];
           }
+          this.startRow = -1;
         }
       }
+      this.checkMapIdNull();
     },
     /**
-     * select id theo từng hàng
-     * CreatedBy: hadm 12/12/2021
+     * select bằng checkbox
+     * CreatedBy: Đỗ Mạnh Hà - 01/01/2022
      */
-    selectItem(event, val, id) {
+    selectItem(event, val, id, index) {
+      event.stopPropagation();
       let ele = event.target;
       if (ele.checked) {
         ele.parentElement.parentElement.classList.add("selected");
         if (id) {
           this.mapId[id] = val;
         }
+        this.startRow = index;
       } else {
-        document.getElementById("checkAll").checked = false;
         ele.parentElement.parentElement.classList.remove("selected");
         delete this.mapId[id];
+        this.startRow = -1;
+      }
+      this.checkSelectAll();
+    },
+
+    /**
+     * chọn một hàng bằng click
+     * CreatedBy: Đỗ Mạnh Hà - 01/01/2022
+     */
+    selectRow(val, id, index) {
+      let checkbox = document.querySelectorAll('td input[type="checkbox"]');
+      // let count = 0;
+      if (event.shiftKey && this.startRow >= 0) {
+        this.unselectRow();
+        this.endRow = index;
+        if (this.startRow > index) {
+          this.endRow = this.startRow;
+          this.startRow = index;
+        }
+        this.mapId = {};
+        for (let i = this.startRow; i <= this.endRow; i++) {
+          checkbox[i].checked = true;
+          checkbox[i].parentElement.parentElement.classList.add("selected");
+          this.mapId[
+            this.fixedAssets[i].FixedAssetId
+          ] = `${this.fixedAssets[i].FixedAssetCode}-${this.fixedAssets[i].FixedAssetName}`;
+          this.checkSelectAll();
+        }
+      } else if (event.ctrlKey) {
+        if (checkbox[index].checked) {
+          checkbox[index].checked = false;
+          checkbox[index].parentElement.parentElement.classList.remove(
+            "selected"
+          );
+          delete this.mapId[id];
+        } else {
+          checkbox[index].checked = true;
+          checkbox[index].parentElement.parentElement.classList.add("selected");
+          this.startRow = index;
+          this.mapId[id] = val;
+        }
+        this.checkSelectAll();
+      } else {
+        this.unselectRow();
+        checkbox[index].checked = true;
+        checkbox[index].parentElement.parentElement.classList.add("selected");
+        this.startRow = index;
+        this.mapId = {};
+        this.mapId[id] = val;
+        this.checkSelectAll();
+      }
+      this.checkMapIdNull();
+    },
+
+    /**
+     * bỏ chọn các row
+     * CreatedBy: Đỗ Mạnh Hà - 01/01/2022
+     */
+    unselectRow() {
+      let checkboxs = document.querySelectorAll('td input[type="checkbox"]');
+      for (let i = 0; i < checkboxs.length; i++) {
+        const checkbox = checkboxs[i];
+        checkbox.checked = false;
+        checkbox.parentElement.parentElement.classList.remove("selected");
       }
     },
+
+    /**
+     * check select All
+     * CreatedBy: Đỗ Mạnh Hà - 01/01/2022
+     */
+    checkSelectAll() {
+      let checkboxs = document.querySelectorAll('td input[type="checkbox"]');
+      let count = 0;
+      for (let i = 0; i < checkboxs.length; i++) {
+        const checkbox = checkboxs[i];
+        if (checkbox.checked) {
+          count++;
+        }
+      }
+      if (count == checkboxs.length) {
+        document.getElementById("checkAll").checked = true;
+      } else {
+        document.getElementById("checkAll").checked = false;
+      }
+      if (count == 0) this.startRow = -1;
+      this.checkMapIdNull();
+    },
+
     /**
      * tìm kiếm theo keyword
-     * CreatedBy: hadm 12/12/2021
+     * CreatedBy: Đỗ Mạnh Hà - 01/01/2022
      */
     search() {
       const me = this;
@@ -521,7 +750,7 @@ export default {
 
     /**
      * tính tổng số các dữ liệu
-     * CreatedBy: hadm 12/12/2021
+     * CreatedBy: Đỗ Mạnh Hà - 01/01/2022
      */
     calculateTotal() {
       let tempTotalQuantity = 0,
@@ -547,7 +776,7 @@ export default {
 
     /**
      * tính khấu hao lũy kế
-     * CreatedBy: hadm 12/12/2021
+     * CreatedBy: Đỗ Mạnh Hà - 01/01/2022
      */
     setDepreciation(cost, rate) {
       return parseInt((cost * rate) / 100);
@@ -555,7 +784,7 @@ export default {
 
     /**
      * xử lý trước khi load data
-     * CreatedBy: hadm 12/12/2021
+     * CreatedBy: Đỗ Mạnh Hà - 01/01/2022
      */
     beforeLoad() {
       document.getElementById("checkAll").checked = false;
@@ -563,11 +792,12 @@ export default {
       this.selectAllItem(event);
       this.mapId = {};
       this.openLoading();
+      this.checkMapIdNull();
     },
 
     /**
      * xử lý sau khi load data
-     * CreatedBy: hadm 12/12/2021
+     * CreatedBy: Đỗ Mạnh Hà - 01/01/2022
      */
     afterLoad() {
       this.calculateTotal();
@@ -577,7 +807,7 @@ export default {
 
     /**
      * load data lên table
-     * CreatedBy: hadm 12/12/2021
+     * CreatedBy: Đỗ Mạnh Hà - 01/01/2022
      */
     async loadData() {
       this.beforeLoad();
@@ -613,7 +843,7 @@ export default {
 
     /**
      * gán index để set select dropdown
-     * CreatedBy: hadm 12/12/2021
+     * CreatedBy: Đỗ Mạnh Hà - 01/01/2022
      */
     changeIndex(e, type) {
       if (!e) {
@@ -630,7 +860,7 @@ export default {
 
     /**
      * gán dữ liệu cho dropdown Phòng ban
-     * CreatedBy: hadm 12/12/2021
+     * CreatedBy: Đỗ Mạnh Hà - 01/01/2022
      */
     setDepartment() {
       this.departments = [...this.$store.getters.Departments];
@@ -644,7 +874,7 @@ export default {
     },
     /**
      * gán dữ liệu cho dropdown Loại tài sản
-     * CreatedBy: hadm 12/12/2021
+     * CreatedBy: Đỗ Mạnh Hà - 01/01/2022
      */
     setFixedAssetCategory() {
       this.fixedAssetCategorys = [...this.$store.getters.FixedAssetCategorys];
@@ -658,7 +888,7 @@ export default {
     },
     /**
      * phân trang
-     * CreatedBy: hadm 12/12/2021
+     * CreatedBy: Đỗ Mạnh Hà - 01/01/2022
      */
     genPagination() {
       this.totalPageIndex = Math.ceil(this.recordNum / this.pageSize);
@@ -697,7 +927,7 @@ export default {
 
     /**
      * gán giá trị pageIndex
-     * CreatedBy: hadm 12/12/2021
+     * CreatedBy: Đỗ Mạnh Hà - 01/01/2022
      */
     setPageIndex(index) {
       if (index > 0 && index <= this.totalPageIndex) {
@@ -708,7 +938,7 @@ export default {
 
     /**
      * gán giá trị pageSize
-     * CreatedBy: hadm 12/12/2021
+     * CreatedBy: Đỗ Mạnh Hà - 01/01/2022
      */
     setPageSize(size) {
       if (size > 0) {
@@ -720,7 +950,7 @@ export default {
 
     /**
      * bật loading
-     * CreatedBy: hadm 12/12/2021
+     * CreatedBy: Đỗ Mạnh Hà - 01/01/2022
      */
     openLoading() {
       let lst = document.querySelectorAll(".m-table td");
@@ -731,7 +961,7 @@ export default {
 
     /**
      * tắt loading
-     * CreatedBy: hadm 12/12/2021
+     * CreatedBy: Đỗ Mạnh Hà - 01/01/2022
      */
     closeLoading() {
       let lst = document.querySelectorAll(".m-table td");
@@ -744,14 +974,14 @@ export default {
 
     /**
      * set chiều cao div fit content
-     * CreatedBy: hadm 12/12/2021
+     * CreatedBy: Đỗ Mạnh Hà - 01/01/2022
      */
     setFitContent() {
       let heightContent = document.querySelector("body").clientHeight;
       let height = document.getElementById("tbListData").offsetHeight;
-      if (height < heightContent - 126 - 40) {
+      if (height < heightContent - 126 - 48) {
         document.getElementById("fit-content").style.height = `calc(100vh - ${
-          126 + height + 42
+          126 + height + 48
         }px)`;
       } else {
         document.getElementById("fit-content").style.height = "0";
@@ -760,7 +990,7 @@ export default {
 
     /**
      * xuất file excel
-     * CreatedBy: hadm 12/12/2021
+     * CreatedBy: Đỗ Mạnh Hà - 01/01/2022
      */
     exportExcel() {
       let param = "";
@@ -785,26 +1015,41 @@ export default {
 
     /**
      * show context menu
-     * CreatedBy: hadm 12/12/2021
+     * CreatedBy: Đỗ Mạnh Hà - 01/01/2022
      */
-    showMenuContext(event, id, name) {
-      // if (Object.keys(this.mapId).length == 0) {
-      this.mapId[id] = name;
+    showMenuContext(event, id, name, index) {
+      this.selectRow(name, id, index);
       this.$store.commit("setIsShowMenuContext", true);
       // }
       event.preventDefault();
-      this.top = event.clientY + 30;
-      this.left = event.clientX + 100;
+      this.top = event.clientY + 60;
+      this.left = event.clientX + 120;
     },
 
     /**
-     * tự động đoosng toast
-     * CreatedBy: hadm 12/12/2021
+     * tự động đóng toast
+     * CreatedBy: Đỗ Mạnh Hà - 01/01/2022
      */
     autoCloseToast() {
       setTimeout(() => {
         this.$store.commit("setIsShowToast", false);
-      }, 5000);
+      }, 3000);
+    },
+
+    /**
+     * set Tooltip nếu text dài quá
+     * CreatedBy: Đỗ Mạnh Hà - 01/01/2022
+     */
+    setTooltip() {
+      let cells = document.querySelectorAll(".m-fixed-asset tbody tr td");
+      for (let i = 0; i < cells.length; i++) {
+        const cell = cells[i];
+        let textWidth = cell.querySelector(".text")?.offsetWidth;
+        let scrollWidth = cell.querySelector(".text")?.scrollWidth;
+        if (scrollWidth > textWidth) {
+          cell.classList.add("m-tooltip-site");
+        }
+      }
     },
   },
 };
@@ -833,8 +1078,8 @@ export default {
   align-items: center;
 }
 
-.m-content .m-container {
-  max-height: calc(100vh - 124px);
+.m-fixed-asset .m-container {
+  height: calc(100vh - 124px);
   overflow-x: auto;
   overflow-y: auto;
   margin-top: 14px;
@@ -850,28 +1095,40 @@ export default {
   display: flex;
   align-items: center;
   position: sticky;
-  bottom: 0;
+  bottom: -1px;
   /* border: 1px solid #ffffff; */
   border-top: 1px solid #e5e5e5;
   z-index: 30;
   background-color: #ffffff;
   width: fit-content;
   box-sizing: content-box;
+  user-select: none;
 }
 
 .general .general-left {
   height: 39px;
-  width: 829px;
+  width: 500px;
+  display: flex;
+  align-items: center;
+  background-color: #ffffff;
+  position: sticky;
+  left: 0;
+}
+
+.general .general-middle {
+  height: 39px;
+  width: 296px;
   display: flex;
   align-items: center;
   background-color: #ffffff;
 }
 
 .general .general-right {
+  z-index: 35;
   height: 39px;
   display: flex;
   align-items: center;
-  font-family: MISAGoogleSans-Bold;
+  font-family: MISARoboto-Bold;
   background-color: #ffffff;
 }
 
@@ -926,7 +1183,7 @@ export default {
 }
 
 .m-fit-content.no-data {
-  background-image: url("../../assets/icon/no_data.svg");
+  background-image: url("../../../assets/icon/no_data.svg");
   background-position: center;
   background-repeat: no-repeat;
 }

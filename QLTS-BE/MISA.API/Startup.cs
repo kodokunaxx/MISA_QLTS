@@ -39,6 +39,10 @@ namespace MISA.AmisAPI
             services.AddScoped(typeof(IBaseService<>), typeof(BaseService<>));
             services.AddScoped<IFixedAssetRepository, FixedAssetRepository>();
             services.AddScoped<IFixedAssetService, FixedAssetService>();
+            services.AddScoped<IAssetResourceRepository, AssetResourceRepository>();
+            services.AddScoped<IAssetResourceService, AssetResourceService>();
+            services.AddScoped<IReceiptRepository, ReceiptRepository>();
+            services.AddScoped<IReceiptService, ReceiptService>();
             // Register the Swagger generator, defining 1 or more Swagger documents
             services.AddSwaggerGen();
         }

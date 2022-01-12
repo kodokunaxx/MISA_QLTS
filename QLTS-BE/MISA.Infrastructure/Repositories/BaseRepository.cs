@@ -1,4 +1,5 @@
 ﻿using Dapper;
+using MISA.Core.Entities;
 using MISA.Core.Interfaces.Repositories;
 using MySqlConnector;
 using System;
@@ -91,7 +92,7 @@ namespace MISA.Infrastructure.Repositories
         /// <returns>Entity</returns>
         /// CreatedBy: hadm (11/11/2021)
         /// ModifiedBy: null
-        public T GetById(Guid entityId)
+        public virtual T GetById(Guid entityId)
         {
             string sqlCommand = $"Proc_Get{_tableName}ById";
             DynamicParameters dynamicParameters = new DynamicParameters();
@@ -135,6 +136,10 @@ namespace MISA.Infrastructure.Repositories
 
             foreach (PropertyInfo prop in entity.GetType().GetProperties())
             {
+                if(prop.IsDefined(typeof(Obj), true))
+                {
+                    continue;
+                }
                 var value = prop.GetValue(entity) == "" ? null : prop.GetValue(entity);
                 dynamicParameters.Add($"@${prop.Name}", value);
             }
@@ -163,6 +168,10 @@ namespace MISA.Infrastructure.Repositories
 
             foreach (PropertyInfo prop in entity.GetType().GetProperties())
             {
+                if (prop.IsDefined(typeof(Obj), true))
+                {
+                    continue;
+                }
                 dynamicParameters.Add($"@${prop.Name}", prop.GetValue(entity));
             }
             dynamicParameters.Add($"@${_tableName}Id", entityId.ToString());
@@ -196,19 +205,6 @@ namespace MISA.Infrastructure.Repositories
 
                 affectedRow = await _dbConnection.ExecuteAsync(sql, param: dynamicParameters, transaction: transaction);
 
-
-                //string sqlCommand = $"DELETE FROM {_tableName} WHERE {_tableName}Id IN (";
-                //if (listID != null && listID.Count > 0)
-                //{
-                //    foreach (var item in listID)
-                //    {
-                //        sqlCommand += $"'{item}', ";
-                //    }
-                //    sqlCommand = sqlCommand.Substring(0, sqlCommand.Length - 2);
-                //    sqlCommand += ")";
-                //}
-
-                //affectedRow = await _dbConnection.ExecuteAsync(sqlCommand, transaction: transaction);
                 if (affectedRow < listId.Length)
                 {
                     transaction.Rollback();
@@ -219,6 +215,32 @@ namespace MISA.Infrastructure.Repositories
                 }
             }
             return affectedRow;
+        }
+
+
+
+        // <summary>
+        /// Lấy mã mới nhất
+        /// </summary>
+        /// <returns>Mã TS mới nhất</returns>
+        /// CreatedBy: hadm (27/8/2021)
+        /// ModifiedBy: null
+        public string GetLastCode()
+        {
+            string sqlCommand = $"Proc_GetLastest{_tableName}Code";
+            return _dbConnection.QueryFirstOrDefault<string>(sqlCommand, commandType: CommandType.StoredProcedure);
+        }
+
+        /// <summary>
+        /// Lấy ra Id gần đây nhất
+        /// </summary>
+        /// <returns>last id</returns>
+        /// CreatedBy: hadm (11/11/2021)
+        /// ModifiedBy: null
+        public Guid GetLastId()
+        {
+            string sqlCommand = $"Proc_GetLastest{_tableName}Id";
+            return _dbConnection.QueryFirstOrDefault<Guid>(sqlCommand, commandType: CommandType.StoredProcedure);
         }
 
         /// <summary>

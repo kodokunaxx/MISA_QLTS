@@ -1,19 +1,19 @@
 @font-face {
-    font-family: MISAGoogleSans;
-    src: url('../../font/GoogleSans-Regular.otf');
+    font-family: MISARoboto;
+    src: url('../../font//Roboto-Regular.ttf');
 }
 
 @font-face {
-    font-family: MISAGoogleSans-Bold;
-    src: url('../../font/GoogleSans-Bold.otf');
+    font-family: MISARoboto-Bold;
+    src: url('../../font/Roboto-Bold.ttf');
 }
 
 @font-face {
-    font-family: MISAGoogleSans-Italic;
-    src: url('../../font/GoogleSans-Italic.otf');
+    font-family: MISARoboto-Italic;
+    src: url('../../font/Roboto-Italic.ttf');
 }
 
 @font-face {
-    font-family: MISAGoogleSans-Medium;
-    src: url('../../font/GoogleSans-Medium.otf');
+    font-family: MISARoboto-Medium;
+    src: url('../../font/Roboto-Medium.ttf');
 }

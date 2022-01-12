@@ -10,16 +10,28 @@ using System.Threading.Tasks;
 namespace MISA.AmisAPI.Controllers
 {
     /// <summary>
-    /// EmployeeController
+    /// Tài sản Controller
     /// </summary>
+    /// CreatedBy: hadm (11/11/2021)
+    /// ModifiedBy: null
     public class FixedAssetController : BaseController<FixedAsset>
     {
+        #region Delclare
         IFixedAssetService _fixedAssetService;
+        #endregion
+
+        #region Property
+
+        #endregion
+
+        #region Constructor
         public FixedAssetController(IFixedAssetService fixedAssetService) : base(fixedAssetService)
         {
             _fixedAssetService = fixedAssetService;
         }
+        #endregion
 
+        #region Method
         /// <summary>
         /// Phân trang
         /// </summary>
@@ -113,5 +125,81 @@ namespace MISA.AmisAPI.Controllers
             //return File(stream, "application/octet-stream", excelName);
             return File(stream, "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet", excelName);
         }
+
+        /// <summary>
+        /// Lấy danh sách bản ghi theo chứng từ Id
+        /// </summary>
+        /// <param name="receiptId">chứng từ id</param>
+        /// <returns>list</returns>
+        /// CreatedBy: hadm (11/11/2021)
+        /// ModifiedBy: null
+        [HttpGet("Receipt/{receiptId}")]
+        public IActionResult GetByReceiptId(Guid receiptId)
+        {
+            ServiceResult serviceResult = new ServiceResult();
+            try
+            {
+                serviceResult = _fixedAssetService.GetByReceiptId(receiptId);
+                return Ok(serviceResult);
+            }
+            catch (Exception e)
+            {
+                serviceResult.SetInternalServerError(e);
+                return StatusCode(500, serviceResult);
+            }
+        }
+
+        /// <summary>
+        /// Cập nhật các bản ghi dựa theo chứng từ Id và tài sản id
+        /// </summary>
+        /// <param name="receiptId">chứng từ Id</param>
+        /// <param name="listId">danh sách tài sản Id</param>
+        /// <returns>rowEffect</returns>
+        /// CreatedBy: hadm (11/11/2021)
+        /// ModifiedBy: null
+        [HttpPut("Receipt/{receiptId}")]
+        public IActionResult UpdateByReceiptId(Guid receiptId, string[] listId)
+        {
+            ServiceResult serviceResult = new ServiceResult();
+            try
+            {
+                serviceResult = _fixedAssetService.UpdateByReceiptId(receiptId, listId);
+                return Ok(serviceResult);
+            }
+            catch (Exception e)
+            {
+                serviceResult.SetInternalServerError(e);
+                return StatusCode(500, serviceResult);
+            }
+        }
+
+        /// <summary>
+        /// Filter paging tài sản không có chứng từ
+        /// </summary>
+        /// <param name="keyword">mã, tên</param>
+        /// <param name="pageIndex"></param>
+        /// <param name="pageSize"></param>
+        /// <returns>list</returns>
+        /// CreatedBy: hadm (11/11/2021)
+        /// ModifiedBy: null
+        [HttpGet("Receipt/filter-null")]
+        public IActionResult GetByReceiptIdNull(string keyword)
+        {
+            ServiceResult serviceResult = new ServiceResult();
+            try
+            {
+                serviceResult = _fixedAssetService.GetByReceiptIdNull(keyword, keyword);
+                return Ok(serviceResult);
+            }
+            catch (Exception e)
+            {
+                serviceResult.SetInternalServerError(e);
+                return StatusCode(500, serviceResult);
+            }
+
+        }
+
+        #endregion
+
     }
 }

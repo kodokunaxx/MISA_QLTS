@@ -27,8 +27,8 @@ export default {
 .m-toast-mess {
   z-index: 150;
   top: 100px;
-  right: -450px;
-  width: 444px;
+  right: -310px;
+  width: 300px;
   height: 48px;
   background-color: #fff;
   border-radius: 4px;
@@ -37,7 +37,7 @@ export default {
   align-items: center;
   position: absolute;
   box-shadow: 1px 2px 1px 2px #bbbbbb;
-  animation: toast 5s linear;
+  animation: toast 3s linear;
 }
 
 .m-toast-mess .btn-close {
@@ -64,13 +64,16 @@ export default {
 
 @keyframes toast {
   0% {
-    right: -450px;
+    right: -310px;
   }
   5% {
     right: 10px;
   }
-  100% {
+  80% {
     right: 10px;
+  }
+  100% {
+    right: -310px;
   }
 }
 </style>

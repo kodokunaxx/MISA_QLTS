@@ -1,15 +1,16 @@
 <template>
   <div class="m-form">
-    <div class="form-site">
-      <div class="f-header">
+    <div class="form-site" id="form">
+      <div class="f-header" @mousedown="moveForm($event)">
         <div class="f-title">{{ titleForm }}</div>
         <div
-          class="icon-24 icon-close"
+          class="icon-24 icon-close m-tooltip-site"
           @click="closeForm('check')"
-          title="Đóng (ESC)"
           v-shortkey="['esc']"
           @shortkey="closeForm('check')"
-        ></div>
+        >
+          <Tooltip :content="'Đóng (ESC)'" />
+        </div>
       </div>
       <div class="f-content">
         <div class="c-left w-1/3 m-r-16">
@@ -27,10 +28,12 @@
                 placeholder="Nhập mã tài sản"
                 tabindex="1"
                 class="required"
-                @focus="removeError('FixedAssetCode')"
+                @focus="focusSelected('FixedAssetCode')"
+                @blur="removeError('FixedAssetCode')"
                 maxlength="10"
               />
             </div>
+            <div class="tooltip">{{ tooltip }}</div>
           </div>
           <div class="row m-b-20">
             <div class="label m-b-8">
@@ -50,7 +53,11 @@
               :tabIndex="3"
               class="required"
               ref="DepartmentId"
-              @focusIn="removeError('DepartmentId'), OpenSelectBox($event)"
+              @focusIn="
+                OpenSelectBox($event);
+                focusSelected('DepartmentId');
+              "
+              @focusOut="removeError('DepartmentId')"
             >
               <template #item="{ data }">
                 <div>
@@ -66,6 +73,7 @@
                 </div>
               </template>
             </DxSelectBox>
+            <div class="tooltip">{{ tooltip }}</div>
           </div>
           <div class="row m-b-20">
             <div class="label m-b-8">
@@ -86,8 +94,10 @@
               class="required"
               ref="FixedAssetCategoryId"
               @focusIn="
-                removeError('FixedAssetCategoryId'), OpenSelectBox($event)
+                OpenSelectBox($event);
+                focusSelected('FixedAssetCategoryId');
               "
+              @focusOut="removeError('FixedAssetCategoryId')"
             >
               <template #item="{ data }">
                 <div>
@@ -103,6 +113,7 @@
                 </div>
               </template>
             </DxSelectBox>
+            <div class="tooltip">{{ tooltip }}</div>
           </div>
           <div class="row m-b-20">
             <div class="label m-b-8">
@@ -119,10 +130,8 @@
                 @keyup="faInfo.Quantity = formatCurrency(faInfo.Quantity)"
                 tabindex="5"
                 ref="Quantity"
-                @focus="
-                  removeError('Quantity');
-                  focusReset('Quantity');
-                "
+                @focus="focusSelected('Quantity')"
+                @blur="removeError('Quantity')"
               />
               <div class="number-side">
                 <div
@@ -135,22 +144,26 @@
                 ></div>
               </div>
             </div>
+            <div class="tooltip">{{ tooltip }}</div>
           </div>
           <div class="row m-b-20">
             <div class="label m-b-8">
               Ngày mua <span style="color: red">*</span>
             </div>
-            <date-picker
+            <DxDateBox
               v-model="faInfo.PurchaseDate"
-              type="date"
-              placeholder="DD/MM/YYYY"
-              :format="'DD/MM/YYYY'"
-              :value-type="'YYYY-MM-DD'"
-              :default-value="new Date()"
               class="required"
               ref="PurchaseDate"
-              @focus="removeError('PurchaseDate')"
-            ></date-picker>
+              :show-clear-button="true"
+              :use-mask-behavior="true"
+              :value="new Date()"
+              placeholder="dd/mm/yyyy"
+              :display-format="typeDate"
+              type="date"
+              :tabIndex="8"
+              @focusOut="removeError('PurchaseDate')"
+            />
+            <div class="tooltip">{{ tooltip }}</div>
           </div>
           <div class="row m-b-20">
             <div class="label m-b-8">
@@ -167,10 +180,8 @@
                 @keyup="faInfo.LifeTime = formatCurrency(faInfo.LifeTime)"
                 tabindex="10"
                 ref="LifeTime"
-                @focus="
-                  removeError('LifeTime');
-                  focusReset('LifeTime');
-                "
+                @focus="focusSelected('LifeTime')"
+                @blur="removeError('LifeTime')"
               />
               <div class="number-side">
                 <div
@@ -183,6 +194,7 @@
                 ></div>
               </div>
             </div>
+            <div class="tooltip">{{ tooltip }}</div>
           </div>
         </div>
         <div class="c-right w-2/3">
@@ -200,9 +212,11 @@
                 tabindex="2"
                 class="required"
                 ref="FixedAssetName"
-                @focus="removeError('FixedAssetName')"
+                @focus="focusSelected('FixedAssetName')"
+                @blur="removeError('FixedAssetName')"
               />
             </div>
+            <div class="tooltip">{{ tooltip }}</div>
           </div>
           <div class="row m-b-20">
             <div class="label m-b-8">Tên bộ phận sử dụng</div>
@@ -233,11 +247,12 @@
               <div class="label m-b-8">
                 Nguyên giá <span style="color: red">*</span>
               </div>
-              <div class="m-textbox">
+              <div class="m-textbox" :class="isInputDisable ? 'disable' : ''">
                 <input
                   type="text"
                   name=""
                   id=""
+                  :disabled="isInputDisable ? true : false"
                   class="text-right required"
                   v-model="faInfo.Cost"
                   @keypress="validate($event)"
@@ -247,12 +262,11 @@
                   "
                   tabindex="6"
                   ref="Cost"
-                  @focus="
-                    removeError('Cost');
-                    focusReset('Cost');
-                  "
+                  @focus="focusSelected('Cost')"
+                  @blur="removeError('Cost')"
                 />
               </div>
+              <div class="tooltip">{{ tooltip }}</div>
             </div>
             <div class="w-1/2">
               <div class="label m-b-8">
@@ -274,13 +288,12 @@
                   "
                   tabindex="7"
                   ref="DepreciationRate"
-                  @focus="
-                    removeError('DepreciationRate');
-                    focusReset('DepreciationRate');
-                  "
+                  @focus="focusSelected('DepreciationRate')"
+                  @blur="removeError('DepreciationRate')"
                   maxlength="5"
                 />
               </div>
+              <div class="tooltip">{{ tooltip }}</div>
             </div>
           </div>
           <div class="row m-b-20 dis-flex">
@@ -288,17 +301,20 @@
               <div class="label m-b-8">
                 Ngày bắt đầu sử dụng <span style="color: red">*</span>
               </div>
-              <date-picker
+              <DxDateBox
                 v-model="faInfo.UseDate"
-                type="date"
-                placeholder="DD/MM/YYYY"
-                :format="'DD/MM/YYYY'"
-                :value-type="'YYYY-MM-DD'"
-                :default-value="new Date()"
                 class="required"
                 ref="UseDate"
-                @focus="removeError('UseDate')"
-              ></date-picker>
+                :show-clear-button="true"
+                :use-mask-behavior="true"
+                :value="new Date()"
+                placeholder="dd/mm/yyyy"
+                :display-format="typeDate"
+                type="date"
+                :tabIndex="9"
+                @focusOut="removeError('UseDate')"
+              />
+              <div class="tooltip">{{ tooltip }}</div>
             </div>
             <div class="w-1/2">
               <div class="label m-b-8">Năm theo dõi</div>
@@ -335,12 +351,11 @@
                   "
                   tabindex="11"
                   ref="DepreciationYear"
-                  @focus="
-                    removeError('DepreciationYear');
-                    focusReset('DepreciationYear');
-                  "
+                  @focus="focusSelected('DepreciationYear')"
+                  @blur="removeError('DepreciationYear')"
                 />
               </div>
+              <div class="tooltip">{{ tooltip }}</div>
             </div>
             <div class="w-1/2"></div>
           </div>
@@ -357,21 +372,21 @@
             <div class="label">Hủy</div>
           </button>
           <button
-            class="m-btn"
+            class="m-btn m-tooltip-site"
             @click="saveData()"
             tabindex="12"
-            title="Lưu (Ctrl + S)"
             v-shortkey="['ctrl', 's']"
             @shortkey="saveData()"
           >
             <div class="label">Lưu</div>
+            <Tooltip :content="'Lưu (Ctrl + S)'" />
           </button>
         </div>
       </div>
     </div>
     <Dialog
       :dialogMode="dialogMode"
-      :faCode="faInfo.FixedAssetCode"
+      :itemCode="faInfo.FixedAssetCode"
       :nameRequired="nameRequired"
       v-if="this.$store.getters.IsShowDialogForm"
       @funct="saveData()"
@@ -383,21 +398,25 @@
 
 <script>
 import DxSelectBox from "devextreme-vue/select-box";
-import Loading from "../base/MLoading.vue";
+import Loading from "../../base/MLoading.vue";
 import axios from "axios";
 import moment from "moment";
-import Dialog from "../base/MDialog.vue";
-import DatePicker from "vue2-datepicker";
+import Dialog from "../../base/MDialog.vue";
+import Tooltip from "../../base/MTooltip.vue";
+import DxDateBox from "devextreme-vue/date-box";
 export default {
   props: ["id", "mode"],
   components: {
     DxSelectBox,
     Loading,
     Dialog,
-    DatePicker,
+    Tooltip,
+    DxDateBox,
   },
   data() {
     return {
+      tooltip: "Không được bỏ trống!",
+      typeDate: this.$store.getters.TypeDate,
       hostApi: this.$store.getters.HostApi,
       endPoint: "FixedAssets/",
       isLoading: false,
@@ -420,7 +439,7 @@ export default {
         LifeTime: 0,
         ProductionYear: 0,
         UseDate: moment(new Date()).format("YYYY-MM-DD"),
-        Active: true,
+        Active: false,
         CreatedDate: null,
         CreatedBy: null,
         ModifiedDate: null,
@@ -434,6 +453,7 @@ export default {
       temp: 0,
       faInfoClone: null,
       titleForm: "",
+      isInputDisable: false,
     };
   },
   async created() {
@@ -443,10 +463,10 @@ export default {
     if (this.id && this.mode) {
       await this.bindData();
       await this.bindCode();
-
       this.$store.commit("setToastContent", this.$store.getters.Toast.Add);
       this.titleForm = this.$store.getters.TitleForm.Replication;
     } else if (this.id) {
+      this.isInputDisable = true;
       this.bindData();
       this.method = this.$store.getters.Method.Edit;
       this.endPoint += this.id;
@@ -459,12 +479,13 @@ export default {
     }
   },
   mounted() {
-    this.setTabIndex();
+    // this.setTabIndex();
   },
   beforeDestroy() {},
   methods: {
     /**
      * xổ dropdown
+     * CreatedBy: Đỗ Mạnh Hà - 01/01/2022
      */
     OpenSelectBox(e) {
       const needOpen =
@@ -476,43 +497,35 @@ export default {
 
     /**
      * validate các trường bắt buộc
-     * CreatedBy: hadm 12/12/2021
+     * CreatedBy: Đỗ Mạnh Hà - 01/01/2022
      */
     validateRequired() {
       let flag = true;
       let inputVal = "";
-      let name = "";
       let count = 0;
       this.nameRequired = "";
       let requireds = document.querySelectorAll(".required");
+      let tooltip = document.querySelectorAll(".tooltip");
       for (let i = 0; i < requireds.length; i++) {
         if (i == 1 || i == 2 || i == 4 || i == 9) {
           inputVal = requireds[i].querySelector("input").value;
           if (inputVal == null || inputVal == "") {
-            if (i == 4 || i == 9) {
-              requireds[i].querySelector("input").classList.add("error");
-            } else {
-              requireds[i].classList.add("error");
-            }
+            requireds[i].classList.add("error");
+            tooltip[i].style.display = "block";
             flag = false;
-            name =
-              requireds[i].parentElement.querySelector(".label").textContent;
-            this.nameRequired += name.slice(0, name.length - 1) + ",";
             count++;
             if (count == 1) {
-              this.focusRequired = requireds[i].querySelector("input");
+              this.focusRequired = requireds[i].querySelector(
+                "input.dx-texteditor-input"
+              );
             }
           }
         } else {
           inputVal = requireds[i].value;
           if (inputVal == null || inputVal == "") {
             requireds[i].classList.add("error");
+            tooltip[i].style.display = "block";
             flag = false;
-            name =
-              requireds[i].parentElement.parentElement.querySelector(
-                ".label"
-              ).textContent;
-            this.nameRequired += name.slice(0, name.length - 1) + ",";
             count++;
             if (count == 1) {
               this.focusRequired = requireds[i];
@@ -525,7 +538,7 @@ export default {
 
     /**
      * xử lý nghiệp vụ
-     * CreatedBy: hadm 12/12/2021
+     * CreatedBy: Đỗ Mạnh Hà - 01/01/2022
      */
     validateMajor() {
       let tCost = parseInt((this.faInfo.Cost + "").replaceAll(".", ""));
@@ -555,7 +568,7 @@ export default {
 
     /**
      * validate Date
-     * CreatedBy: hadm 12/12/2021
+     * CreatedBy: Đỗ Mạnh Hà - 01/01/2022
      */
     validateDate() {
       if (this.faInfo.PurchaseDate > this.faInfo.UseDate) {
@@ -568,38 +581,45 @@ export default {
 
     /**
      * xóa error khi focus
-     * CreatedBy: hadm 12/12/2021
+     * CreatedBy: Đỗ Mạnh Hà - 01/01/2022
      */
     removeError(refName) {
       let requireds = document.querySelectorAll(".required");
-
+      let tooltip = document.querySelectorAll(".tooltip");
       switch (refName) {
         case "DepartmentId":
           requireds[1].classList.remove("error");
+          tooltip[1].style.display = "none";
 
           break;
         case "FixedAssetCategoryId":
           requireds[2].classList.remove("error");
+          tooltip[2].style.display = "none";
 
           break;
         case "PurchaseDate":
-          requireds[4].querySelector("input").classList.remove("error");
+          requireds[4].classList.remove("error");
+          tooltip[4].style.display = "none";
 
           break;
         case "UseDate":
-          requireds[9].querySelector("input").classList.remove("error");
+          requireds[9].classList.remove("error");
+          tooltip[9].style.display = "none";
 
           break;
 
         default:
           this.$refs[refName].classList.remove("error");
+          this.$refs[refName].parentElement.parentElement.querySelector(
+            ".tooltip"
+          ).style.display = "none";
           break;
       }
     },
 
     /**
      * focus vào lỗi
-     * CreatedBy: hadm 12/12/2021
+     * CreatedBy: Đỗ Mạnh Hà - 01/01/2022
      */
     focusToError() {
       this.focusRequired.focus();
@@ -607,7 +627,7 @@ export default {
 
     /**
      * set tabindex date picker
-     * CreatedBy: hadm 12/12/2021
+     * CreatedBy: Đỗ Mạnh Hà - 01/01/2022
      */
     setTabIndex() {
       let dpicker = document.querySelectorAll(".mx-input");
@@ -617,7 +637,7 @@ export default {
 
     /**
      * đóng form
-     * CreatedBy: hadm 12/12/2021
+     * CreatedBy: Đỗ Mạnh Hà - 01/01/2022
      */
     closeForm(check) {
       this.nameRequired = "";
@@ -639,12 +659,11 @@ export default {
 
     /**
      * lưu dữ liệu
-     * CreatedBy: hadm 12/12/2021
+     * CreatedBy: Đỗ Mạnh Hà - 01/01/2022
      */
     saveData() {
       if (!this.validateRequired()) {
-        this.dialogMode = this.$store.getters.DialogMode.Required;
-        this.$store.commit("setIsShowDialogForm", true);
+        this.focusToError();
         return;
       }
       if (!this.validateMajor()) return;
@@ -667,7 +686,6 @@ export default {
         .catch((error) => {
           this.setFaInfoClone();
           const validateInfo = error.response.data.ValidateInfo;
-
           this.isLoading = false;
           // check duplicate
           if (validateInfo && validateInfo.length) {
@@ -678,6 +696,7 @@ export default {
               ) {
                 this.dialogMode = this.$store.getters.DialogMode.Duplicate;
                 this.$store.commit("setIsShowDialogForm", true);
+                this.focusRequired = this.$refs.FixedAssetCode;
               }
             });
           }
@@ -686,7 +705,7 @@ export default {
 
     /**
      * event trước khi lưu
-     * CreatedBy: hadm 12/12/2021
+     * CreatedBy: Đỗ Mạnh Hà - 01/01/2022
      */
     beforeSave() {
       this.isLoading = true;
@@ -708,7 +727,7 @@ export default {
 
     /**
      * tính giá trị hao mòn năm
-     * CreatedBy: hadm 12/12/2021
+     * CreatedBy: Đỗ Mạnh Hà - 01/01/2022
      */
     setDepreciationYear() {
       let tmpDR = this.faInfo.DepreciationRate + "";
@@ -725,7 +744,7 @@ export default {
 
     /**
      * tính tỉ lệ hao mòn
-     * CreatedBy: hadm 12/12/2021
+     * CreatedBy: Đỗ Mạnh Hà - 01/01/2022
      */
     setDepreciationRate() {
       if (
@@ -747,7 +766,7 @@ export default {
 
     /**
      * format số
-     * CreatedBy: hadm 12/12/2021
+     * CreatedBy: Đỗ Mạnh Hà - 01/01/2022
      */
     formatNum(value) {
       if (value == null || value == 0 || value == "") return "0";
@@ -757,7 +776,7 @@ export default {
 
     /**
      * format tiền
-     * CreatedBy: hadm 12/12/2021
+     * CreatedBy: Đỗ Mạnh Hà - 01/01/2022
      */
     formatCurrency(value) {
       if (value == null || value == 0 || value == "") return "0";
@@ -767,7 +786,7 @@ export default {
 
     /**
      * format số thập phân
-     * CreatedBy: hadm 12/12/2021
+     * CreatedBy: Đỗ Mạnh Hà - 01/01/2022
      */
     formatDecimal(value) {
       if (value == null || value == 0 || value == "") return "0";
@@ -791,7 +810,7 @@ export default {
 
     /**
      * sinh mã mới
-     * CreatedBy: hadm 12/12/2021
+     * CreatedBy: Đỗ Mạnh Hà - 01/01/2022
      */
     bindCode() {
       this.isLoading = true;
@@ -805,13 +824,14 @@ export default {
           this.faInfoClone = { ...this.faInfo };
         })
         .catch((error) => {
+          this.isLoading = false;
           console.log(error);
         });
     },
 
     /**
      * event sau khi binding
-     * CreatedBy: hadm 12/12/2021
+     * CreatedBy: Đỗ Mạnh Hà - 01/01/2022
      */
     setFaInfoClone() {
       this.faInfo.DepreciationYear = (
@@ -833,7 +853,7 @@ export default {
     },
     /**
      * gán dữ liệu
-     * CreatedBy: hadm 12/12/2021
+     * CreatedBy: Đỗ Mạnh Hà - 01/01/2022
      */
     async bindData() {
       this.isLoading = true;
@@ -860,7 +880,7 @@ export default {
 
     /**
      * gán index để set select dropdown
-     * CreatedBy: hadm 12/12/2021
+     * CreatedBy: Đỗ Mạnh Hà - 01/01/2022
      */
     handleSelect(e, type) {
       if (!e) {
@@ -868,22 +888,25 @@ export default {
       }
       let payload = e.element.__vue__.$_innerChanges.selectedItem;
       if (type === "department") {
-        this.faInfo.DepartmentName = payload.DepartmentName;
+        this.faInfo.DepartmentName = payload?.DepartmentName;
       } else {
-        this.faInfo.FixedAssetCategoryName = payload.FixedAssetCategoryName;
-        payload.DepreciationRate = payload.DepreciationRate
-          ? payload.DepreciationRate
-          : 0;
-        this.faInfo.DepreciationRate = this.formatDecimal(
-          ("" + payload.DepreciationRate.toFixed(2)).replaceAll(".", ",")
-        );
-        payload.LifeTime = payload.LifeTime ? payload.LifeTime : 0;
-        this.faInfo.LifeTime = this.formatCurrency(payload.LifeTime + "");
+        this.faInfo.FixedAssetCategoryName = payload?.FixedAssetCategoryName;
+        if (payload) {
+          payload.DepreciationRate = payload.DepreciationRate
+            ? payload.DepreciationRate
+            : 0;
+
+          this.faInfo.DepreciationRate = this.formatDecimal(
+            ("" + payload.DepreciationRate.toFixed(2)).replaceAll(".", ",")
+          );
+          payload.LifeTime = payload.LifeTime ? payload.LifeTime : 0;
+          this.faInfo.LifeTime = this.formatCurrency(payload.LifeTime + "");
+        }
       }
     },
     /**
      * gán dữ liệu cho dropdown Phòng ban
-     * CreatedBy: hadm 12/12/2021
+     * CreatedBy: Đỗ Mạnh Hà - 01/01/2022
      */
     setDepartment() {
       this.departments = [...this.$store.getters.Departments];
@@ -896,7 +919,7 @@ export default {
 
     /**
      * gán dữ liệu cho dropdown Loại tài sản
-     * CreatedBy: hadm 12/12/2021
+     * CreatedBy: Đỗ Mạnh Hà - 01/01/2022
      */
     setFixedAssetCategory() {
       this.fixedAssetCategorys = [...this.$store.getters.FixedAssetCategorys];
@@ -909,7 +932,7 @@ export default {
 
     /**
      * handler key number
-     * CreatedBy: hadm 12/12/2021
+     * CreatedBy: Đỗ Mạnh Hà - 01/01/2022
      */
     validate(evt, type) {
       var regex = /[0-9]/g;
@@ -934,30 +957,20 @@ export default {
 
     /**
      * reset text
-     * CreatedBy: hadm 12/12/2021
+     * CreatedBy: Đỗ Mạnh Hà - 01/01/2022
      */
-    focusReset() {
-      // switch (refName) {
-      //   case "Quantity":
-      //     this.faInfo.Quantity = "";
-      //     break;
-      //   case "Cost":
-      //     this.faInfo.Cost = "";
-      //     break;
-      //   case "DepreciationRate":
-      //     this.faInfo.DepreciationRate = "";
-      //     break;
-      //   case "LifeTime":
-      //     this.faInfo.LifeTime = "";
-      //     break;
-      //   case "DepreciationYear":
-      //     this.faInfo.DepreciationYear = "";
-      //     break;
-      //   default:
-      //     break;
-      // }
+    focusSelected(refName) {
+      if (refName == "DepartmentId" || refName == "FixedAssetCategoryId") {
+        this.$refs[refName].$el.querySelector(".dx-texteditor-input").select();
+      } else {
+        this.$refs[refName].select();
+      }
     },
 
+    /**
+     * sự kiện tăng number
+     * CreatedBy: Đỗ Mạnh Hà - 01/01/2022
+     */
     increaseNum(name) {
       let temp;
       switch (name) {
@@ -975,6 +988,10 @@ export default {
       }
     },
 
+    /**
+     * sự kiện giảm number
+     * CreatedBy: Đỗ Mạnh Hà - 01/01/2022
+     */
     reductionNum(name) {
       let temp;
       switch (name) {
@@ -993,6 +1010,33 @@ export default {
           break;
       }
     },
+
+    /**
+     * di chuyển form
+     * CreatedBy: Đỗ Mạnh Hà - 01/01/2022
+     */
+    moveForm(event) {
+      if (event.target.classList.contains("icon-close")) return;
+      event.target.style.cursor = "grabbing";
+      let mouseX = event.clientX;
+      let mouseY = event.clientY;
+      let moveX = 0;
+      let moveY = 0;
+      const form = document.getElementById("form");
+      document.onmousemove = function (e) {
+        moveX = mouseX - e.clientX;
+        moveY = mouseY - e.clientY;
+        mouseX = e.clientX;
+        mouseY = e.clientY;
+        form.style.left = `${form.offsetLeft - moveX}px`;
+        form.style.top = `${form.offsetTop - moveY}px`;
+      };
+      document.onmouseup = function () {
+        document.onmouseup = null;
+        document.onmousemove = null;
+        event.target.style.cursor = "grab";
+      };
+    },
   },
 };
 </script>
@@ -1001,6 +1045,7 @@ export default {
 .m-form {
   display: flex;
   align-items: center;
+  justify-content: center;
   top: 0;
   left: 0;
   position: absolute;
@@ -1011,25 +1056,28 @@ export default {
 }
 
 .m-form .form-site {
-  margin: auto;
   min-width: 750px;
   width: 65%;
   background-color: #ffffff;
   height: auto;
   border-radius: 4px;
+  position: absolute;
+  height: fit-content;
 }
 
 .form-site .f-header {
-  padding: 20px 16px;
+  padding: 16px;
   position: relative;
   display: flex;
   align-items: center;
   justify-content: space-between;
+  cursor: grab;
+  user-select: none;
 }
 
 .f-header .f-title {
   font-size: 17px;
-  font-family: MISAGoogleSans-Bold;
+  font-family: MISARoboto-Bold;
 }
 
 .f-header .icon-close {
@@ -1067,5 +1115,9 @@ export default {
 
 .m-form .error {
   border: 1px solid red !important;
+}
+
+.m-form .row {
+  position: relative;
 }
 </style>

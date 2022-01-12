@@ -7,13 +7,25 @@
       :style="contextStyle"
       @blur="hideMenuContext()"
     >
-      <div class="context-item pointer duplicate" @click="addFA()">
-        Thêm mới
+      <div class="context-item pointer" @click="addItem()" v-if="hasAdd">
+        <div class="icon-24 icon-add m-r-10"></div>
+        <div class="duplicate">Thêm mới</div>
       </div>
-      <div class="context-item pointer duplicate" @click="editFA()">Sửa</div>
-      <div class="context-item pointer delete" @click="deleteFA()">Xóa</div>
-      <div class="context-item pointer duplicate" @click="replicationFA()">
-        Nhân bản
+      <div class="context-item pointer" @click="editItem()">
+        <div class="icon-24 icon-edit m-r-10"></div>
+        <div class="duplicate">Sửa</div>
+      </div>
+      <div class="context-item pointer" @click="deleteItem()">
+        <div class="icon-24 icon-delete m-r-10"></div>
+        <div class="delete">Xóa</div>
+      </div>
+      <div
+        class="context-item pointer"
+        @click="replicationItem()"
+        v-if="hasReplication"
+      >
+        <div class="icon-24 icon-replication m-r-10"></div>
+        <div class="duplicate">Nhân bản</div>
       </div>
     </div>
   </div>
@@ -21,7 +33,7 @@
 
 <script>
 export default {
-  props: ["top", "left", "mapId"],
+  props: ["top", "left", "mapId", "replication", "add"],
   computed: {
     contextStyle: function () {
       return {
@@ -31,7 +43,18 @@ export default {
     },
   },
   data() {
-    return {};
+    return {
+      hasAdd: true,
+      hasReplication: true,
+    };
+  },
+  created() {
+    if (this.add != undefined || this.add != null) {
+      this.hasAdd = this.add;
+    }
+    if (this.replication != undefined || this.replication != null) {
+      this.hasReplication = this.replication;
+    }
   },
   mounted() {
     this.$refs.context.focus();
@@ -39,7 +62,7 @@ export default {
   methods: {
     /**
      * ẩn menu context
-     * CreatedBy: hadm 12/12/2021
+     * CreatedBy: Đỗ Mạnh Hà - 01/01/2022
      */
     hideMenuContext() {
       this.$store.commit("setIsShowMenuContext", false);
@@ -52,18 +75,18 @@ export default {
 
     /**
      * xóa tài sản
-     * CreatedBy: hadm 12/12/2021
+     * CreatedBy: Đỗ Mạnh Hà - 01/01/2022
      */
-    deleteFA() {
+    deleteItem() {
       this.hideMenuContext();
-      this.$emit("deleteFA");
+      this.$emit("delete");
     },
 
     /**
      * nhân bản tài sản
-     * CreatedBy: hadm 12/12/2021
+     * CreatedBy: Đỗ Mạnh Hà - 01/01/2022
      */
-    replicationFA() {
+    replicationItem() {
       this.hideMenuContext();
       let id = "";
       if (Object.keys(this.mapId).length > 1) {
@@ -71,14 +94,14 @@ export default {
       } else {
         id = Object.keys(this.mapId)[0];
       }
-      this.$emit("replicationFA", id);
+      this.$emit("replication", id);
     },
 
     /**
      * sửa tài sản
-     * CreatedBy: hadm 12/12/2021
+     * CreatedBy: Đỗ Mạnh Hà - 01/01/2022
      */
-    editFA() {
+    editItem() {
       this.hideMenuContext();
       let id = "";
       if (Object.keys(this.mapId).length > 1) {
@@ -86,16 +109,16 @@ export default {
       } else {
         id = Object.keys(this.mapId)[0];
       }
-      this.$emit("editFA", id);
+      this.$emit("edit", id);
     },
 
     /**
      * thêm mới
-     * CreatedBy: hadm 12/12/2021
+     * CreatedBy: Đỗ Mạnh Hà - 01/01/2022
      */
-    addFA() {
+    addItem() {
       this.hideMenuContext();
-      this.$emit("addFA");
+      this.$emit("add");
     },
   },
 };
@@ -110,19 +133,23 @@ export default {
   transform: translate(-100%, -50%);
   transition: 0.05s;
   outline: none;
-  padding: 0;
+  padding: 3px 0;
+  border-radius: 4px;
+  width: 120px;
 }
 
 .context-item {
-  padding: 5px 10px;
+  padding: 2px 8px;
   text-overflow: ellipsis;
   white-space: nowrap;
   overflow: hidden;
   user-select: none;
+  display: flex;
+  align-items: center;
 }
 
 .context-item:hover {
-  background-color: #f5f5f5;
+  background-color: #d3d5d8;
   transition: 0.2s;
 }
 .context-item:active {

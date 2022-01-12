@@ -10,6 +10,12 @@ using System.Threading.Tasks;
 
 namespace MISA.AmisAPI.Controllers
 {
+    /// <summary>
+    /// Controller chung
+    /// </summary>
+    /// <typeparam name="T">Generic Entity</typeparam>
+    /// CreatedBy: hadm (11/11/2021)
+    /// ModifiedBy: null
     [Route("api/v1/[controller]s")]
     [ApiController]
     public class BaseController<T> : ControllerBase
@@ -169,6 +175,13 @@ namespace MISA.AmisAPI.Controllers
             }
         }
 
+        /// <summary>
+        /// Xóa nhiều bản ghi
+        /// </summary>
+        /// <param name="listId"></param>
+        /// <returns>số bản ghi bị xóa</returns>
+        /// CreatedBy: hadm (11/11/2021)
+        /// ModifiedBy: null
         [HttpDelete("delete-multi")]
         public async Task<IActionResult> DeleteMulti(string[] listId)
         {
@@ -189,6 +202,27 @@ namespace MISA.AmisAPI.Controllers
             }
         }
 
+        /// <summary>
+        /// Lấy ra Id gần đây nhất
+        /// </summary>
+        /// <returns>last id</returns>
+        /// CreatedBy: hadm (11/11/2021)
+        /// ModifiedBy: null
+        [HttpGet("lastId")]
+        public IActionResult GetLastId()
+        {
+            ServiceResult serviceResult = new ServiceResult();
+            try
+            {
+                serviceResult = _baseService.GetLastId();
+                return Ok(serviceResult);
+            }
+            catch (Exception e)
+            {
+                serviceResult.SetInternalServerError(e);
+                return StatusCode(500, serviceResult);
+            }
+        }
         #endregion
     }
 }

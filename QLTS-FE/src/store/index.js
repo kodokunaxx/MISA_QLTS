@@ -12,6 +12,7 @@ export const store = new Vuex.Store({
         HostApi: "https://localhost:44369/api/v1/",
         Departments: [],
         FixedAssetCategorys: [],
+        Resources: [],
         Method: Resource.Method,
         DialogMode: Resource.DialogMode,
         Validate: Resource.Validate,
@@ -19,7 +20,7 @@ export const store = new Vuex.Store({
         Duplicate: "",
         Delete: "",
         MultiDelete: "",
-        ErrorDelete: Resource.Warning.ErrorDelete,
+        ErrorDelete: "",
         ErrorMultiDelete: "",
         Required: "",
         GetByIdFail: Resource.Warning.GetByIdFail,
@@ -35,7 +36,17 @@ export const store = new Vuex.Store({
         IsShowToast: false,
         Toast: Resource.Toast,
         ToastContent: "",
-        TitleForm: Resource.TitleForm
+        TitleForm: Resource.TitleForm,
+        DeleteReceipt: "",
+        MultiDeleteReceipt: "",
+        TypeDate: "dd-MM-yyyy",
+        IsShowReceiptForm: false,
+        IsReceiptFormDisplayNone: true,
+        IsShowChooseAsset: false,
+        AssetNull: Resource.Warning.AssetNull,
+        CancelAddReceipt: Resource.Warning.CancelAddReceipt,
+        DuplicateReceipt: Resource.Warning.DuplicateReceipt,
+        IsShowAssetResourceForm: false
     },
     getters: {
         Id: state => state.Id,
@@ -43,6 +54,7 @@ export const store = new Vuex.Store({
         HostApi: state => state.HostApi,
         Departments: state => state.Departments,
         FixedAssetCategorys: state => state.FixedAssetCategorys,
+        Resources: state => state.Resources,
         Method: state => state.Method,
         DialogMode: state => state.DialogMode,
         ButtonText: state => state.ButtonText,
@@ -67,6 +79,16 @@ export const store = new Vuex.Store({
         Toast: state => state.Toast,
         ToastContent: state => state.ToastContent,
         TitleForm: state => state.TitleForm,
+        DeleteReceipt: state => state.DeleteReceipt,
+        MultiDeleteReceipt: state => state.MultiDeleteReceipt,
+        TypeDate: state => state.TypeDate,
+        IsShowReceiptForm: state => state.IsShowReceiptForm,
+        IsReceiptFormDisplayNone: state => state.IsReceiptFormDisplayNone,
+        IsShowChooseAsset: state => state.IsShowChooseAsset,
+        AssetNull: state => state.AssetNull,
+        CancelAddReceipt: state => state.CancelAddReceipt,
+        DuplicateReceipt: state => state.DuplicateReceipt,
+        IsShowAssetResourceForm: state => state.IsShowAssetResourceForm,
     },
     mutations: {
         setId: (state, payload) => state.Id = payload,
@@ -74,9 +96,11 @@ export const store = new Vuex.Store({
         setHostApi: (state, payload) => state.HostApi = payload,
         setDepartments: (state, payload) => state.Departments = payload,
         setFixedAssetCategorys: (state, payload) => state.FixedAssetCategorys = payload,
+        setResources: (state, payload) => state.Resources = payload,
         setDuplicate: (state, payload) => state.Duplicate = Resource.Warning.Duplicate(payload),
         setDelete: (state, payload) => state.Delete = Resource.Warning.Delete(payload),
         setMultiDelete: (state, payload) => state.MultiDelete = Resource.Warning.MultiDelete(payload),
+        setErrorDelete: (state, payload) => state.ErrorDelete = Resource.Warning.ErrorDelete(payload),
         setErrorMultiDelete: (state, payload) => state.ErrorMultiDelete = Resource.Warning.ErrorMultiDelete(payload),
         setRequired: (state, payload) => state.Required = Resource.Warning.Required(payload),
         setIsShowDialog: (state, payload) => state.IsShowDialog = payload,
@@ -85,6 +109,15 @@ export const store = new Vuex.Store({
         setIsShowMenuContext: (state, payload) => state.IsShowMenuContext = payload,
         setIsShowToast: (state, payload) => state.IsShowToast = payload,
         setToastContent: (state, payload) => state.ToastContent = payload,
+        setDeleteReceipt: (state, payload) => state.DeleteReceipt = Resource.Warning.DeleteReceipt(payload),
+        setMultiDeleteReceipt: (state, payload) => state.MultiDeleteReceipt = Resource.Warning.MultiDeleteReceipt(payload),
+        setIsShowReceiptForm: (state, payload) => state.IsShowReceiptForm = payload,
+        setIsReceiptFormDisplayNone: (state, payload) => state.IsReceiptFormDisplayNone = payload,
+        setIsShowChooseAsset: (state, payload) => state.IsShowChooseAsset = payload,
+        setCancelAddReceipt: (state, payload) => state.CancelAddReceipt = Resource.Warning.CancelAddReceipt(payload),
+        setDuplicateReceipt: (state, payload) => state.DuplicateReceipt = Resource.Warning.DuplicateReceipt(payload),
+        setIsShowAssetResourceForm: (state, payload) => state.IsShowAssetResourceForm = payload,
+
     },
     actions: {
         /**
@@ -112,6 +145,21 @@ export const store = new Vuex.Store({
             try {
                 let response = await axios.get(apiUrl);
                 context.commit("setFixedAssetCategorys", response.data.Data);
+            } catch (error) {
+                console.log(error)
+            }
+        },
+
+        /**
+         * lấy danh sách nguồn hình thành
+         * CreatedBy: hadm 12/12/2021
+         */
+        getResources: async context => {
+            let HostApi = context.state.HostApi;
+            let apiUrl = HostApi + "Resources";
+            try {
+                let response = await axios.get(apiUrl);
+                context.commit("setResources", response.data.Data);
             } catch (error) {
                 console.log(error)
             }

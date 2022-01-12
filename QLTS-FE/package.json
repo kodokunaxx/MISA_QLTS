@@ -12,6 +12,7 @@
     "core-js": "^3.6.5",
     "devextreme": "^21.2.3",
     "devextreme-vue": "^21.2.3",
+    "jquery": "^3.6.0",
     "moment": "^2.29.1",
     "vue": "^2.6.11",
     "vue-router": "^3.5.3",

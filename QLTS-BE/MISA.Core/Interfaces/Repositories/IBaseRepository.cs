@@ -72,6 +72,23 @@ namespace MISA.Core.Interfaces.Repositories
         /// CreatedBy: hadm (11/11/2021)
         /// ModifiedBy: null
         Task<int> DeleteMulti(string[] listId);
+
+
+        /// <summary>
+        /// Lấy mã mới nhất
+        /// </summary>
+        /// <returns>Mã TS mới nhất</returns>
+        /// CreatedBy: hadm (11/11/2021)
+        /// ModifiedBy: null
+        public string GetLastCode();
+
+        /// <summary>
+        /// Lấy ra Id gần đây nhất
+        /// </summary>
+        /// <returns>last id</returns>
+        /// CreatedBy: hadm (11/11/2021)
+        /// ModifiedBy: null
+        public Guid GetLastId();
         #endregion
     }
 }
